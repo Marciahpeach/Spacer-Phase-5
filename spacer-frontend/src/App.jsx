@@ -1,6 +1,7 @@
-// src/App.jsx
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 import AddSpace from "./pages/admin/AddSpace";
 import ViewSpaces from "./pages/admin/ViewSpaces";
@@ -10,14 +11,30 @@ import ViewUsers from "./pages/admin/ViewUsers";
 function App() {
   return (
     <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/admin/spaces/add" element={<AddSpace />} />
-        <Route path="/admin/spaces" element={<ViewSpaces />} />
-        <Route path="/admin/users/add" element={<AddUser />} />
-        <Route path="/admin/users" element={<ViewUsers />} />
-        <Route path="*" element={<h2 className="p-6">Page Not Found</h2>} />
-      </Routes>
+      <div className="flex min-h-screen bg-gray-100 text-gray-900">
+        {/* Sidebar (Admin Navigation) */}
+        <Sidebar />
+
+        {/* Main Layout Area */}
+        <div className="flex flex-col flex-1">
+          <Header />
+
+          <main className="flex-1 p-6 overflow-auto">
+            <Routes>
+              {/* Spaces Routes */}
+              <Route path="/admin/spaces" element={<ViewSpaces />} />
+              <Route path="/admin/spaces/add" element={<AddSpace />} />
+              <Route path="/admin/spaces/edit/:id" element={<AddSpace />} />
+
+              {/* Users Routes */}
+              <Route path="/admin/users" element={<ViewUsers />} />
+              <Route path="/admin/users/add" element={<AddUser />} />
+            </Routes>
+          </main>
+
+          <Footer />
+        </div>
+      </div>
     </Router>
   );
 }
