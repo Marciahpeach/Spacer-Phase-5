@@ -1,17 +1,5 @@
-<<<<<<< HEAD
 import React from "react";
 import { Link } from "react-router-dom";
-
-function Navbar() {
-  return (
-    <nav className="bg-blue-600 text-white p-4 flex justify-between items-center">
-      <h1 className="text-xl font-bold">Spacer</h1>
-      <div className="space-x-4">
-        <Link to="/">Home</Link>
-        <Link to="/booking">Book</Link>
-        <Link to="/invoice">Invoice</Link>
-=======
-import { Link } from 'react-router-dom';
 
 export default function Navbar() {
   return (
@@ -33,6 +21,22 @@ export default function Navbar() {
               className="hover:text-blue-500 transition duration-200"
             >
               Home
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/booking"
+              className="hover:text-blue-500 transition duration-200"
+            >
+              Book
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/invoice"
+              className="hover:text-blue-500 transition duration-200"
+            >
+              Invoice
             </Link>
           </li>
           <li>
@@ -60,13 +64,7 @@ export default function Navbar() {
             </Link>
           </li>
         </ul>
->>>>>>> main
       </div>
     </nav>
   );
 }
-<<<<<<< HEAD
-
-export default Navbar;
-=======
->>>>>>> main
