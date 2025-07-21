@@ -1,5 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 import Login from "./auth/Login";
 import Register from "./auth/Register";
@@ -22,6 +26,30 @@ function App() {
           <Route path="/success" element={<SuccessPage />} />
         </Route>
       </Routes>
+      <div className="flex min-h-screen bg-gray-100 text-gray-900">
+        {/* Sidebar (Admin Navigation) */}
+        <Sidebar />
+
+        {/* Main Layout Area */}
+        <div className="flex flex-col flex-1">
+          <Header />
+
+          <main className="flex-1 p-6 overflow-auto">
+            <Routes>
+              {/* Spaces Routes */}
+              <Route path="/admin/spaces" element={<ViewSpaces />} />
+              <Route path="/admin/spaces/add" element={<AddSpace />} />
+              <Route path="/admin/spaces/edit/:id" element={<AddSpace />} />
+
+              {/* Users Routes */}
+              <Route path="/admin/users" element={<ViewUsers />} />
+              <Route path="/admin/users/add" element={<AddUser />} />
+            </Routes>
+          </main>
+
+          <Footer />
+        </div>
+      </div>
     </Router>
   );
 }
