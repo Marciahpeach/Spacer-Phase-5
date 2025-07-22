@@ -9,11 +9,11 @@ export default function Navbar() {
   return (
     <nav className="bg-black shadow-md fixed top-0 left-0 right-0 z-50 border-b border-gray-200">
       <div className="w-full">
-        <div className="items-center h-15 w-full">
+        <div className="items-center h-20 w-full">
           {/* Logo */}
           <Link
             to="/"
-            className="text-2xl font-extrabold text-blue-600 flex text-center"
+            className="text-4xl font-extrabold text-blue-700 flex text-center"
           >
             Spacer
           </Link>
@@ -22,7 +22,7 @@ export default function Navbar() {
           <div className="hidden md:flex space-x-6 items-center text-gray-800 font-medium place-items-center justify-end pr-20">
             <Link
               to="/"
-              className="hover:text-blue-600 hover:underline transition text-white"
+              className="hover:text-blue-700 hover:underline transition text-white"
             >
               Home
             </Link>
@@ -30,7 +30,7 @@ export default function Navbar() {
             <div className="relative">
               <button
                 onClick={() => setShowAdminMenu(!showAdminMenu)}
-                className="hover:text-blue-600 hover:underline transition text-white"
+                className="hover:text-blue-700 hover:underline transition text-white"
               >
                 Admin ▾
               </button>
@@ -64,7 +64,7 @@ export default function Navbar() {
 
             <Link
               to="/login"
-              className="hover:text-blue-600 hover:underline transition text-white"
+              className="hover:text-blue-700 hover:underline transition text-white"
             >
               Login
             </Link>
