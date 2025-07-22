@@ -1,55 +1,37 @@
-// src/pages/client/SpaceDetails.jsx
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchSpaceById, bookSpace } from "../../services/api";
 
-const SpaceDetails = () => {
+export default function SpaceDetails() {
   const { id } = useParams();
   const [space, setSpace] = useState(null);
-  const [name, setName] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchSpaceById(id).then(setSpace);
+    const spaces = JSON.parse(localStorage.getItem("spaces")) || [];
+    setSpace(spaces[parseInt(id)]);
   }, [id]);
 
-  const handleBooking = async () => {
-    if (space.status === "booked") return;
-    const updated = await bookSpace(id, { bookedBy: name });
-    setSpace(updated);
-  };
-
-  if (!space) return <p className="p-4">Loading...</p>;
+  if (!space) return <p className="p-6">Loading space details...</p>;
 
   return (
-    <div className="p-4 max-w-3xl mx-auto">
-      <img src={space.image} alt={space.name} className="w-full rounded-xl" />
-      <h1 className="text-2xl font-bold mt-4">{space.name}</h1>
-      <p className="text-gray-600">{space.description}</p>
-      <p className="mt-2">Location: {space.location}</p>
-      <p>Status: {space.status}</p>
-      <div className="mt-4">
-        {space.status !== "booked" ? (
-          <>
-            <input
-              type="text"
-              placeholder="Your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="border p-2 rounded mr-2"
-            />
-            <button
-              onClick={handleBooking}
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-            >
-              Book Now
-            </button>
-          </>
-        ) : (
-          <p className="text-red-500">This space is already booked.</p>
-        )}
-      </div>
+    <div className="max-w-3xl mx-auto p-6">
+      <img src={space.image} alt={space.name} className="w-full h-64 object-cover rounded mb-4" />
+      <h1 className="text-3xl font-bold mb-2">{space.name}</h1>
+      <p className="text-gray-700 mb-2">{space.location}</p>
+      <p className="text-gray-600 mb-4">{space.description}</p>
+      <p className="text-lg font-semibold mb-2">KES {space.price}</p>
+      <p className={`mb-4 font-bold ${space.available ? 'text-green-600' : 'text-red-600'}`}>
+        {space.available ? "Available for Booking" : "Currently Unavailable"}
+      </p>
+
+      {space.available && (
+        <button
+          onClick={() => navigate(`/booking/${id}`)}
+          className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700"
+        >
+          Book This Space
+        </button>
+      )}
     </div>
   );
-};
-
-export default SpaceDetails;
+}

@@ -1,23 +1,21 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:5000/api";  // change if your backend URL differs
+const API_URL = "http://localhost:5000/api/spaces";
 
+// Fetch all spaces
 export const fetchSpaces = async () => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/spaces`);
-    return response.data;  // assuming backend returns array of spaces
-  } catch (error) {
-    console.error("Failed to fetch spaces", error);
-    return [];
-  }
+  const res = await axios.get(API_URL);
+  return res.data;
 };
 
+// Fetch single space by ID
 export const fetchSpaceById = async (id) => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/spaces/${id}`);
-    return response.data;  // single space object
-  } catch (error) {
-    console.error(`Failed to fetch space with id ${id}`, error);
-    return null;
-  }
+  const res = await axios.get(`${API_URL}/${id}`);
+  return res.data;
+};
+
+// Update space (e.g. mark as booked)
+export const updateSpace = async (id, updatedSpace) => {
+  const res = await axios.patch(`${API_URL}/${id}`, updatedSpace);
+  return res.data;
 };
