@@ -1,69 +1,41 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-// Layout components
-import Sidebar from "./components/Sidebar";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
 
-// Auth
-import Login from "./auth/Login";
-import Register from "./auth/Register";
-import ProtectedRoute from "./auth/ProtectedRoute";
+import Home from "./pages/client/Home";
+import SpaceDetails from "./pages/client/SpaceDetails";
+import Booking from "./pages/client/Booking";
+import Invoice from "./pages/client/Invoice";
 
-// Booking and Payment
-import BookingPage from "./booking/BookingPage";
-import SpaceUnavailable from "./booking/SpaceUnavailable";
-import InvoicePage from "./payment/InvoicePage";
-import SuccessPage from "./payment/SuccessPage";
-
-// Admin pages (make sure these are imported correctly)
-import ViewSpaces from "./admin/ViewSpaces";
-import AddSpace from "./admin/AddSpace";
-import ViewUsers from "./admin/ViewUsers";
-import AddUser from "./admin/AddUser";
-
-// Admin Layout
-const AdminLayout = () => (
-  <div className="flex min-h-screen bg-gray-100 text-gray-900">
-    <Sidebar />
-    <div className="flex flex-col flex-1">
-      <Header />
-      <main className="flex-1 p-6 overflow-auto">
-        <Outlet />
-      </main>
-      <Footer />
-    </div>
-  </div>
-);
+// Admin pages (you'll add these later step by step)
+import AddSpace from "./pages/admin/AddSpace";
+import ViewSpaces from "./pages/admin/ViewSpaces";
+import AddUser from "./pages/admin/AddUser";
+import ViewUsers from "./pages/admin/ViewUsers";
+import Login from "./pages/auth/Login";
 
 function App() {
   return (
     <Router>
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+      <div className="flex flex-col min-h-screen">
+        <Navbar />
+        <Routes>
+          {/* Client Routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/spaces/:id" element={<SpaceDetails />} />
+          <Route path="/booking/:id" element={<Booking />} />
+          <Route path="/invoice/:bookingId" element={<Invoice />} />
 
-        {/* Protected Routes */}
-        <Route element={<ProtectedRoute />}>
-          {/* Booking + Payment Pages (no admin layout) */}
-          <Route path="/book" element={<BookingPage />} />
-          <Route path="/space-unavailable" element={<SpaceUnavailable />} />
-          <Route path="/invoice" element={<InvoicePage />} />
-          <Route path="/success" element={<SuccessPage />} />
+          {/* Admin Routes (placeholders for now) */}
+          <Route path="/admin/add-space" element={<AddSpace />} />
+          <Route path="/admin/view-spaces" element={<ViewSpaces />} />
+          <Route path="/admin/add-user" element={<AddUser />} />
+          <Route path="/admin/view-users" element={<ViewUsers />} />
 
-          {/* Admin Routes with Layout */}
-          <Route element={<AdminLayout />}>
-            <Route path="/admin/spaces" element={<ViewSpaces />} />
-            <Route path="/admin/spaces/add" element={<AddSpace />} />
-            <Route path="/admin/spaces/edit/:id" element={<AddSpace />} />
-
-            <Route path="/admin/users" element={<ViewUsers />} />
-            <Route path="/admin/users/add" element={<AddUser />} />
-          </Route>
-        </Route>
-      </Routes>
+          {/* Auth */}
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </div>
     </Router>
   );
 }

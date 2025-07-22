@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getSpaces, deleteSpace } from "../../services/api";
-import { Button } from "../../components/Button";
+
 
 function ViewSpaces() {
   const [spaces, setSpaces] = useState([]);
