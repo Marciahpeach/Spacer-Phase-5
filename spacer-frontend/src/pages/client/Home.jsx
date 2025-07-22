@@ -1,45 +1,34 @@
-import React, { useEffect, useState } from "react";
-import { fetchSpaces } from "../../services/api";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const [spaces, setSpaces] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const loadSpaces = async () => {
-      const allSpaces = await fetchSpaces();
-      // Filter to only available spaces
-      const availableSpaces = allSpaces.filter(space => space.status === "available");
-      setSpaces(availableSpaces);
-      setLoading(false);
-    };
-    loadSpaces();
+    const storedSpaces = JSON.parse(localStorage.getItem("spaces")) || [];
+    setSpaces(storedSpaces);
   }, []);
 
-  if (loading) return <div className="p-6">Loading spaces...</div>;
-
-  if (spaces.length === 0)
-    return <div className="p-6">No available spaces found.</div>;
-
   return (
-    <div className="p-6 max-w-6xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Available Spaces</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {spaces.map(space => (
-          <div
-            key={space.id}
-            className="cursor-pointer border rounded shadow hover:shadow-lg transition p-4"
-            onClick={() => navigate(`/spaces/${space.id}`)}
-          >
-            <img
-              src={space.image}
-              alt={space.name}
-              className="h-40 w-full object-cover rounded mb-4"
-            />
+    <div className="p-6">
+      <h1 className="text-3xl font-bold mb-4">Available Spaces</h1>
+      <div className="grid md:grid-cols-3 gap-6">
+        {spaces.map((space, index) => (
+          <div key={index} className="bg-white p-4 shadow rounded">
+            <img src={space.image} alt={space.name} className="w-full h-40 object-cover rounded mb-2" />
             <h2 className="text-xl font-semibold">{space.name}</h2>
             <p className="text-gray-600">{space.location}</p>
+            <p className="text-sm">{space.description.substring(0, 60)}...</p>
+            <p className="mt-1"><strong>KES {space.price}</strong></p>
+            <p className={`mt-1 font-semibold ${space.available ? 'text-green-600' : 'text-red-600'}`}>
+              {space.available ? "Available" : "Unavailable"}
+            </p>
+            <Link
+              to={`/spaces/${index}`}
+              className="inline-block mt-3 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              View Details
+            </Link>
           </div>
         ))}
       </div>
