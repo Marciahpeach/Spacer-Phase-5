@@ -14,7 +14,7 @@ export default function Home() {
       <h1 className="text-3xl font-bold mb-4">Available Spaces</h1>
       <div className="grid md:grid-cols-3 gap-6">
         {spaces.map((space, index) => (
-          <div key={index} className="bg-white p-4 shadow rounded">
+          <div key={index} className="bg-white p-4 shadow-2xl rounded hover:scale-105 duration-500">
             <img src={space.image} alt={space.name} className="w-full h-40 object-cover rounded mb-2" />
             <h2 className="text-xl font-semibold">{space.name}</h2>
             <p className="text-gray-600">{space.location}</p>

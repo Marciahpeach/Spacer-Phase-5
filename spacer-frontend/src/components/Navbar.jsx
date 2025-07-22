@@ -7,22 +7,22 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-white shadow-md fixed top-0 left-0 right-0 z-50 border-b border-gray-200">
-      <div className="w-full bg-orange-600">
-        <div className="items-center h-16">
+    <nav className="bg-black shadow-md fixed top-0 left-0 right-0 z-50 border-b border-gray-200">
+      <div className="w-full">
+        <div className="items-center h-15 w-full">
           {/* Logo */}
           <Link
             to="/"
-            className="text-2xl font-extrabold text-blue-600 hover:text-blue-700"
+            className="text-2xl font-extrabold text-blue-600 flex text-center"
           >
             Spacer
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex space-x-6 items-center text-gray-800 font-medium">
+          <div className="hidden md:flex space-x-6 items-center text-gray-800 font-medium place-items-center justify-end pr-20">
             <Link
               to="/"
-              className="hover:text-blue-600 hover:underline transition"
+              className="hover:text-blue-600 hover:underline transition text-white"
             >
               Home
             </Link>
@@ -30,23 +30,23 @@ export default function Navbar() {
             <div className="relative">
               <button
                 onClick={() => setShowAdminMenu(!showAdminMenu)}
-                className="hover:text-blue-600 hover:underline transition"
+                className="hover:text-blue-600 hover:underline transition text-white"
               >
                 Admin ▾
               </button>
               {showAdminMenu && (
-                <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-md shadow-lg z-50">
+                <div className="absolute right-0 mt-2 w-56 bg-blue rounded-md border border-b-emerald-500">
                   <Link
                     to="/admin/add-space"
                     onClick={() => setShowAdminMenu(false)}
-                    className="block px-4 py-2 hover:bg-blue-50 text-sm"
+                    className="block px-4 py-2 hover:bg-blue-50 text-sm text-blue"
                   >
                     ➕ Add Space
                   </Link>
                   <Link
                     to="/admin/view-spaces"
                     onClick={() => setShowAdminMenu(false)}
-                    className="block px-4 py-2 hover:bg-blue-50 text-sm"
+                    className="block px-4 py-2 hover:bg-blue-50 text-sm text-blue"
                   >
                     🏢 View Spaces
                   </Link>
@@ -64,7 +64,7 @@ export default function Navbar() {
 
             <Link
               to="/login"
-              className="hover:text-blue-600 hover:underline transition"
+              className="hover:text-blue-600 hover:underline transition text-white"
             >
               Login
             </Link>
@@ -74,7 +74,7 @@ export default function Navbar() {
           <div className="md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-gray-800 hover:text-blue-600"
+              className="text-gray-800"
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -93,33 +93,22 @@ export default function Navbar() {
             <p className="font-semibold text-gray-700">Admin</p>
             <Link
               to="/admin/add-space"
-              className="block py-2 px-2 hover:bg-gray-100 rounded"
+              className="block py-20 mx-30 rounded text-blue-600 text-center"
             >
               ➕ Add Space
             </Link>
             <Link
               to="/admin/view-spaces"
-              className="block py-2 px-2 hover:bg-gray-100 rounded"
+              className="block py-2 rounded  text-gray-950 text-center"
             >
               🏢 View Spaces
             </Link>
-            <Link
-              to="/admin/add-user"
-              className="block py-2 px-2 hover:bg-gray-100 rounded"
-            >
-              👤 Add User
-            </Link>
-            <Link
-              to="/admin/view-users"
-              className="block py-2 px-2 hover:bg-gray-100 rounded"
-            >
-              📋 View Users
-            </Link>
+        
           </div>
 
           <Link
             to="/login"
-            className="block py-2 px-2 hover:bg-gray-100 rounded"
+            className="block py-2 px-2 rounded"
           >
             Login
           </Link>
