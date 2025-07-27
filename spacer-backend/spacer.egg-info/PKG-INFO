@@ -1,0 +1,14 @@
+Metadata-Version: 2.4
+Name: spacer
+Version: 0.1.0
+Requires-Dist: Flask
+Requires-Dist: Flask-SQLAlchemy
+Requires-Dist: Flask-Migrate
+Requires-Dist: Flask-JWT-Extended
+Requires-Dist: Flask-CORS
+Requires-Dist: PyMySQL
+Requires-Dist: python-dotenv
+Requires-Dist: stripe
+Requires-Dist: python-dateutil
+Requires-Dist: bcrypt
+Dynamic: requires-dist

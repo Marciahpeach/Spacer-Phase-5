@@ -1,21 +1,28 @@
+# app.py
 from flask import Flask
 from flask_cors import CORS
-from models import db
-from routes.space_routes import space_routes
+from flask_jwt_extended import JWTManager
+from spacer.config import Config
+from spacer.extensions import db, migrate
 
-app = Flask(__name__)
-CORS(app)
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
+    
+    # Initialize extensions
+    db.init_app(app)
+    migrate.init_app(app, db)
+    JWTManager(app)
+    CORS(app)
+    
+    # Import and register blueprints within app context
+    with app.app_context():
+        from spacer.routes.auth import auth_bp
+        from spacer.routes.agreements import agreements_bp
+        
+        app.register_blueprint(auth_bp, url_prefix='/auth')
+        app.register_blueprint(agreements_bp, url_prefix='/agreements')
+    
+    return app
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///spacer.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db.init_app(app)
-
-app.register_blueprint(space_routes)
-
-@app.route("/")
-def home():
-    return {"message": "Spacer backend running ✅"}
-
-if __name__ == "__main__":
-    app.run(debug=True)
+app = create_app()

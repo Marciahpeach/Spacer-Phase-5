@@ -1,4 +1,4 @@
-#!/home/mariah/Moringa-school-work/Phase-5/Spacer-Phase-5/spacer-backend/venv/bin/python3
+#!/home/mash/Spacer-Phase-5/spacer-backend/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
