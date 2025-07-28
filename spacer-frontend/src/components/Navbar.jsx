@@ -9,7 +9,7 @@ export default function Navbar() {
   return (
     <nav className="bg-black shadow-md fixed top-0 left-0 right-0 z-50 border-b border-gray-200">
       <div className="w-full">
-        <div className="items-center h-15 w-full">
+        <div className="items-center h-20 w-full">
           {/* Logo */}
           <Link
             to="/"

@@ -48,15 +48,15 @@ export default function AddSpace() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto p-6 mt-10 bg-white shadow-lg rounded-lg">
+    <div className="max-w-2xl mx-auto p-6 mt-[150px] bg-white shadow-lg rounded-lg">
       <h1 className="text-2xl font-bold mb-6 text-center">Add New Space</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input name="name" onChange={handleChange} placeholder="Name" className="w-full p-2 border rounded" required />
-        <input name="location" onChange={handleChange} placeholder="Location" className="w-full p-2 border rounded" required />
-        <input name="capacity" onChange={handleChange} placeholder="Capacity (e.g. 50)" className="w-full p-2 border rounded" required />
-        <textarea name="description" onChange={handleChange} placeholder="Description" className="w-full p-2 border rounded" required />
-        <input name="price" type="number" onChange={handleChange} placeholder="Price (KES)" className="w-full p-2 border rounded" required />
-        <input name="image" onChange={handleChange} placeholder="Image URL" className="w-full p-2 border rounded" required />
+      <form onSubmit={handleSubmit} className="space-y-4 border-green-400 ">
+        <input name="name" onChange={handleChange} placeholder="Name" className="w-full p-2 rounded-xl border" required />
+        <input name="location" onChange={handleChange} placeholder="Location" className="w-full p-2 rounded-xl border" required />
+        <input name="capacity" onChange={handleChange} placeholder="Capacity (e.g. 50)" className="w-full p-2 rounded-xl border" required />
+        <textarea name="description" onChange={handleChange} placeholder="Description" className="w-full p-6 rounded-xl border" required />
+        <input name="price" type="number" onChange={handleChange} placeholder="Price (KES)" className="w-full p-2 rounded-xl border" required />
+        <input name="image" onChange={handleChange} placeholder="Image URL" className="w-full p-2 rounded-xl border" required />
 
         {/* Availability */}
         <div className="flex items-center gap-4">

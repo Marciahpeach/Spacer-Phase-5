@@ -1,9 +1,9 @@
 from flask import Blueprint, request, jsonify
 from app.models import db, Admin
 
-auth_bp = Blueprint('auth_bp', __name__)
+auth_bp = Blueprint('auth_bp', __name__,url_prefix='/login')
 
-@auth_bp.route('/login', methods=['POST'])
+@auth_bp.route('', methods=['POST'])
 def login():
     data = request.get_json()
     admin = Admin.query.filter_by(email=data.get("email")).first()

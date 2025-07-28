@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { fetchSpaces } from "../../services/api"; // ✅ Correct import path
 
 export default function Booking() {
   const { id } = useParams();
@@ -9,14 +10,29 @@ export default function Booking() {
   const [date, setDate] = useState("");
 
   useEffect(() => {
-    const spaces = JSON.parse(localStorage.getItem("spaces")) || [];
-    const selected = spaces[parseInt(id)];
-    if (!selected || !selected.available) {
-      alert("This space is currently unavailable for booking.");
-      navigate("/");
-    } else {
-      setSpace(selected);
-    }
+    const loadSpaces = async () => {
+      try {
+        const spaces = await fetchSpaces(); // fetch from backend
+        const selected = spaces.find((s) => s.id === parseInt(id));
+
+        if (!selected) {
+          alert("This space does not exist.");
+          navigate("/");
+        } else if (!selected.available) {
+          alert("This space is currently unavailable for booking.");
+          navigate("/");
+        } else {
+          setSpace(selected);
+          localStorage.setItem("spaces", JSON.stringify(spaces)); // sync to localStorage for updates
+        }
+      } catch (error) {
+        console.error("Failed to load spaces:", error);
+        alert("An error occurred while loading the space.");
+        navigate("/");
+      }
+    };
+
+    loadSpaces();
   }, [id, navigate]);
 
   const handleBooking = () => {
@@ -25,10 +41,14 @@ export default function Booking() {
       return;
     }
 
-    // Mark the space as unavailable
     const spaces = JSON.parse(localStorage.getItem("spaces")) || [];
-    spaces[parseInt(id)].available = false;
-    localStorage.setItem("spaces", JSON.stringify(spaces));
+
+    // Mark the space unavailable
+    const updatedSpaces = spaces.map((s) =>
+      s.id === parseInt(id) ? { ...s, available: false } : s
+    );
+
+    localStorage.setItem("spaces", JSON.stringify(updatedSpaces));
 
     alert(`Thank you ${name}! You’ve successfully booked "${space.name}" on ${date}.`);
     navigate("/");
@@ -37,7 +57,7 @@ export default function Booking() {
   if (!space) return <p className="p-6">Loading booking form...</p>;
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-white rounded shadow">
+    <div className="max-w-xl mx-auto my-[300px] bg-white rounded shadow p-6">
       <h2 className="text-2xl font-bold mb-4">Book "{space.name}"</h2>
 
       <div className="mb-4">
