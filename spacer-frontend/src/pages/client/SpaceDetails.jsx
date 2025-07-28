@@ -15,7 +15,7 @@ export default function SpaceDetails() {
 
   return (
     <div className="max-w-3xl mx-auto p-6">
-      <img src={space.image} alt={space.name} className="w-full h-64 object-cover rounded mb-4" />
+      <img src={space.image} alt={space.name} className="w-full h-70 object-cover rounded mb-4" />
       <h1 className="text-3xl font-bold mb-2">{space.name}</h1>
       <p className="text-gray-700 mb-2">{space.location}</p>
       <p className="text-gray-600 mb-4">{space.description}</p>
