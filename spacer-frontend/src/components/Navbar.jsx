@@ -1,119 +1,121 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { NavLink, Link } from "react-router-dom";
+import { Menu, X, ChevronDown } from "lucide-react";
 
-export default function Navbar() {
-  const [showAdminMenu, setShowAdminMenu] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [adminDropdownOpen, setAdminDropdownOpen] = useState(false);
+
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const toggleAdminDropdown = () => setAdminDropdownOpen(!adminDropdownOpen);
+
+  const linkClasses = ({ isActive }) =>
+    `hover:underline hover:text-blue-500 dark:hover:text-blue-400 ${
+      isActive ? "text-blue-600 dark:text-blue-400 font-semibold" : ""
+    }`;
 
   return (
-    <nav className="bg-black shadow-md fixed top-0 left-0 right-0 z-50 border-b border-gray-200">
-      <div className="w-full">
-        <div className="items-center h-20 w-full">
-          {/* Logo */}
-          <Link
-            to="/"
-            className="text-4xl font-extrabold text-blue-700 flex text-center"
-          >
-            Spacer
-          </Link>
+    <nav className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white shadow-md transition duration-300">
+      <div className="container mx-auto px-4 py-6 flex justify-between items-center h-20">
+        <Link to="/" className="text-2xl font-bold tracking-wide">
+          Spacer
+        </Link>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex space-x-6 items-center text-gray-800 font-medium place-items-center justify-end pr-20">
-            <Link
-              to="/"
-              className="hover:text-blue-700 hover:underline transition text-white"
-            >
-              Home
-            </Link>
+        {/* Desktop Menu */}
+        <div className="hidden md:flex items-center gap-6 text-base font-medium">
+          <NavLink to="/" className={linkClasses}>
+            Home
+          </NavLink>
 
-            <div className="relative">
-              <button
-                onClick={() => setShowAdminMenu(!showAdminMenu)}
-                className="hover:text-blue-700 hover:underline transition text-white"
-              >
-                Admin ▾
-              </button>
-              {showAdminMenu && (
-                <div className="absolute right-0 mt-2 w-56 bg-blue rounded-md border border-b-emerald-500">
-                  <Link
-                    to="/admin/add-space"
-                    onClick={() => setShowAdminMenu(false)}
-                    className="block px-4 py-2 hover:bg-blue-50 text-sm text-blue"
-                  >
-                    ➕ Add Space
-                  </Link>
-                  <Link
-                    to="/admin/view-spaces"
-                    onClick={() => setShowAdminMenu(false)}
-                    className="block px-4 py-2 hover:bg-blue-50 text-sm text-blue"
-                  >
-                    🏢 View Spaces
-                  </Link>
-                  <Link
-                    to="/admin/add-user"
-                    onClick={() => setShowAdminMenu(false)}
-                    className="block px-4 py-2 hover:bg-blue-50 text-sm"
-                  >
-                    
-                  </Link>
-                 
-                </div>
-              )}
-            </div>
-
-            <Link
-              to="/login"
-              className="hover:text-blue-700 hover:underline transition text-white"
-            >
-              Login
-            </Link>
-          </div>
-
-          {/* Mobile Hamburger */}
-          <div className="md:hidden">
+          <div className="relative">
             <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-gray-800"
+              onClick={toggleAdminDropdown}
+              className="flex items-center gap-1 hover:underline hover:text-blue-500"
             >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              Admin <ChevronDown size={16} />
             </button>
+            {adminDropdownOpen && (
+              <div className="absolute top-8 bg-white dark:bg-gray-800 shadow-lg rounded-md p-2 z-10 min-w-[150px]">
+                <NavLink
+                  to="/admin/add-space"
+                  className={({ isActive }) =>
+                    `block px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 ${
+                      isActive
+                        ? "bg-gray-100 dark:bg-gray-700 font-semibold"
+                        : ""
+                    }`
+                  }
+                >
+                  Add Space
+                </NavLink>
+                <NavLink
+                  to="/admin/view-spaces"
+                  className={({ isActive }) =>
+                    `block px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 ${
+                      isActive
+                        ? "bg-gray-100 dark:bg-gray-700 font-semibold"
+                        : ""
+                    }`
+                  }
+                >
+                  View Spaces
+                </NavLink>
+              </div>
+            )}
           </div>
+
+          <NavLink to="/login" className={linkClasses}>
+            Login
+          </NavLink>
         </div>
+
+        {/* Hamburger for Mobile */}
+        <button onClick={toggleMenu} className="md:hidden">
+          {menuOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
       </div>
 
-      {/* Mobile Dropdown Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-t shadow-md px-4 py-4 space-y-2 text-gray-800">
-          <Link to="/" className="block py-2 hover:bg-gray-100 rounded">
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div className="md:hidden px-4 pb-4 flex flex-col gap-2 text-base font-medium">
+          <NavLink to="/" onClick={() => setMenuOpen(false)} className={linkClasses}>
             Home
-          </Link>
+          </NavLink>
 
           <div>
-            <p className="font-semibold text-gray-700">Admin</p>
-            <Link
-              to="/admin/add-space"
-              className="block py-20 mx-30 rounded text-blue-600 text-center"
+            <button
+              onClick={toggleAdminDropdown}
+              className="flex items-center gap-1 w-full text-left"
             >
-              ➕ Add Space
-            </Link>
-            <Link
-              to="/admin/view-spaces"
-              className="block py-2 rounded  text-gray-950 text-center"
-            >
-              🏢 View Spaces
-            </Link>
-        
+              Admin <ChevronDown size={16} />
+            </button>
+            {adminDropdownOpen && (
+              <div className="ml-4 mt-2 flex flex-col gap-2">
+                <NavLink
+                  to="/admin/add-space"
+                  onClick={() => setMenuOpen(false)}
+                  className={linkClasses}
+                >
+                  Add Space
+                </NavLink>
+                <NavLink
+                  to="/admin/view-spaces"
+                  onClick={() => setMenuOpen(false)}
+                  className={linkClasses}
+                >
+                  View Spaces
+                </NavLink>
+              </div>
+            )}
           </div>
 
-          <Link
-            to="/login"
-            className="block py-2 px-2 rounded"
-          >
+          <NavLink to="/login" onClick={() => setMenuOpen(false)} className={linkClasses}>
             Login
-          </Link>
+          </NavLink>
         </div>
       )}
     </nav>
   );
 }
+
+export default Navbar;
