@@ -3,11 +3,9 @@ from app.models import db, Space
 
 spaces_bp = Blueprint("spaces", __name__, url_prefix="/spaces")
 
-# Create new space
 @spaces_bp.route('', methods=["POST"])
 def add_space():
     data = request.get_json()
-
     if not data.get("name") or not data.get("location"):
         return jsonify({"error": "Missing required fields"}), 400
 
@@ -26,13 +24,12 @@ def add_space():
     db.session.commit()
     return jsonify(new_space.to_dict()), 201
 
-# Get all spaces
-@spaces_bp.route('', methods=["GET"])
-def get_spaces():
+@spaces_bp.route('/debug', methods=["GET"])
+def debug_spaces():
     spaces = Space.query.all()
-    return jsonify([space.to_dict() for space in spaces]), 200
+    return jsonify([space.id for space in spaces]), 200
 
-# Book a space (mark as unavailable)
+# PATCH /spaces/<int:space_id>/book
 @spaces_bp.route('/<int:space_id>/book', methods=["PATCH"])
 def book_space(space_id):
     space = Space.query.get(space_id)
