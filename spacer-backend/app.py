@@ -6,6 +6,7 @@ from routes.booking_routes import booking_routes
 
 app = Flask(__name__)
 CORS(app)
+app.register_blueprint(spaces_bp, url_prefix="/api/spaces")
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///spacer.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)

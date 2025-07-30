@@ -31,35 +31,14 @@ export default function Booking() {
     fetchSpace();
   }, [id, navigate]);
 
-  async function handleBooking(e) {
-    e.preventDefault();
-    try {
-      console.log("Booking payload:", {
-  name,
-  date,
-  available: false,
-});
-      const res = await updateSpaceAvailability(id, {
-        name,
-        date,
-        available: false,
-      });
-
-      if (res.success) {
-        alert("Booking successful!");
-        navigate("/");
-      } else {
-        alert("Failed to book the space.");
-      }
-    }catch (err) {
-  console.error("Booking error (raw):", err);
-  console.error("Booking error (string):", JSON.stringify(err, Object.getOwnPropertyNames(err)));
-
-  const msg =
-    err?.response?.data?.message || err?.message || "Unknown error occurred.";
-  alert("Something went wrong during booking:\n" + msg);
-}
+ const handleBooking = async () => {
+  try {
+    await updateSpaceAvailability(spaceId, { available: false });
+    alert("Booking successful!");
+  } catch (error) {
+    console.error("Booking error:", error);
   }
+};
 
   if (!space) return <p className="text-center mt-10">Loading...</p>;
 

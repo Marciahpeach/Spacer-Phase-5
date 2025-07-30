@@ -29,16 +29,20 @@ def debug_spaces():
     spaces = Space.query.all()
     return jsonify([space.id for space in spaces]), 200
 
-# PATCH /spaces/<int:space_id>/book
-@spaces_bp.route('/<int:space_id>/book', methods=["PATCH"])
-def book_space(space_id):
+# PATCH /api/spaces/<int:space_id>
+@spaces_bp.route('/<int:space_id>', methods=["PATCH"])
+def update_space(space_id):
+    data = request.get_json()
+
     space = Space.query.get(space_id)
     if not space:
         return jsonify({"error": "Space not found"}), 404
 
-    if not space.available:
-        return jsonify({"error": "Space already booked"}), 400
+    if "available" not in data:
+        return jsonify({"error": "Missing 'available' field"}), 400
 
-    space.available = False
+    space.available = data["available"]
     db.session.commit()
     return jsonify(space.to_dict()), 200
+
+

@@ -1,7 +1,7 @@
 // api.js
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:5000/api";
+export const API_BASE_URL = "http://localhost:5000/api";
 const SPACES_KEY = "spaces";
 
 export function getSpaces() {
@@ -53,21 +53,14 @@ export function addSpace(newSpace) {
 
 // ✅ Book space (mark unavailable)
 export async function updateSpaceAvailability(id, bookingData) {
-  try {
-    const res = await axios.patch(`${API_BASE_URL}/spaces/${id}`, bookingData);
+  console.log("Calling PATCH for space:", id, "with data:", bookingData);
 
-    // Optional: update localStorage if `available` is present
-    if (bookingData.hasOwnProperty("available")) {
-      const spaces = getSpaces();
-      const index = spaces.findIndex((s) => String(s.id) === String(id));
-      if (index !== -1) {
-        spaces[index].available = bookingData.available;
-        saveSpaces(spaces);
-      }
-    }
+  try {
+    const res = await axios.patch(`${API_BASE_URL}/spaces/${id}/book`, bookingData);
+    console.log("PATCH response:", res.data);
     return res.data;
   } catch (error) {
-    console.error("Failed to update availability:", error.response?.data || error.message);
+    console.error("❌ Failed to update availability:", error.message);
     throw error;
   }
 }
