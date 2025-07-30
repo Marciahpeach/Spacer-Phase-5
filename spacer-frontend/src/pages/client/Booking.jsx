@@ -34,6 +34,11 @@ export default function Booking() {
   async function handleBooking(e) {
     e.preventDefault();
     try {
+      console.log("Booking payload:", {
+  name,
+  date,
+  available: false,
+});
       const res = await updateSpaceAvailability(id, {
         name,
         date,
@@ -46,10 +51,14 @@ export default function Booking() {
       } else {
         alert("Failed to book the space.");
       }
-    } catch (err) {
-      console.error("Booking error:", err);
-      alert("Something went wrong during booking.");
-    }
+    }catch (err) {
+  console.error("Booking error (raw):", err);
+  console.error("Booking error (string):", JSON.stringify(err, Object.getOwnPropertyNames(err)));
+
+  const msg =
+    err?.response?.data?.message || err?.message || "Unknown error occurred.";
+  alert("Something went wrong during booking:\n" + msg);
+}
   }
 
   if (!space) return <p className="text-center mt-10">Loading...</p>;
