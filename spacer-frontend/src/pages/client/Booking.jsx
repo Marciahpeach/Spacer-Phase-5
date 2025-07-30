@@ -1,3 +1,4 @@
+// src/pages/client/Booking.jsx
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getSpaceById, updateSpaceAvailability } from "../../services/api";
@@ -5,28 +6,24 @@ import { getSpaceById, updateSpaceAvailability } from "../../services/api";
 export default function Booking() {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const [space, setSpace] = useState(null);
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchSpace() {
       try {
         const data = await getSpaceById(id);
-        if (!data) {
-          alert("Space doesn't exist.");
-          navigate("/");
-        } else if (!data.available) {
-          alert("This space is already booked and unavailable.");
+        if (!data || !data.available) {
+          alert("This space is unavailable or does not exist.");
           navigate("/");
         } else {
           setSpace(data);
-          setLoading(false);
         }
       } catch (err) {
-        console.error(err);
-        alert("Failed to fetch space.");
+        console.error("Error loading space:", err);
+        alert("Something went wrong while fetching the space.");
         navigate("/");
       }
     }
@@ -36,59 +33,63 @@ export default function Booking() {
 
   async function handleBooking(e) {
     e.preventDefault();
-
-    if (!name || !date) {
-      alert("Please fill in all fields.");
-      return;
-    }
-
     try {
-      // Update the availability
-      await updateSpaceAvailability(id, false);
+      const res = await updateSpaceAvailability(id, {
+        name,
+        date,
+        available: false,
+      });
 
-      // Show success message
-      alert("✅ Booking confirmed successfully!");
-
-      // Optionally reset or disable form (or just navigate back)
-      navigate("/");
+      if (res.success) {
+        alert("Booking successful!");
+        navigate("/");
+      } else {
+        alert("Failed to book the space.");
+      }
     } catch (err) {
-      console.error(err);
-      alert("❌ Failed to book space. Try again.");
+      console.error("Booking error:", err);
+      alert("Something went wrong during booking.");
     }
   }
 
-  if (loading) return <p className="text-center mt-10">Loading space...</p>;
+  if (!space) return <p className="text-center mt-10">Loading...</p>;
 
   return (
-    <div className="max-w-xl mx-auto mt-10 p-6 bg-white shadow rounded-xl">
-      <h2 className="text-2xl font-bold mb-4 text-center">
-        Book: {space.name}
-      </h2>
-      <form onSubmit={handleBooking} className="space-y-4">
-        <div>
-          <label className="block font-semibold">Your Name:</label>
+    <div className="flex items-center justify-center min-h-screen bg-gray-50">
+      <form
+        onSubmit={handleBooking}
+        className="bg-white shadow-md rounded-xl p-8 w-full max-w-md"
+      >
+        <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">
+          Book "{space.name}"
+        </h1>
+
+        <div className="mb-4">
+          <label className="block mb-1 font-semibold text-gray-700">Your Name</label>
           <input
             type="text"
-            className="w-full border px-3 py-2 rounded"
+            placeholder="Enter your name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="John Doe"
+            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
         </div>
-        <div>
-          <label className="block font-semibold">Booking Date:</label>
+
+        <div className="mb-6">
+          <label className="block mb-1 font-semibold text-gray-700">Booking Date</label>
           <input
             type="date"
-            className="w-full border px-3 py-2 rounded"
             value={date}
             onChange={(e) => setDate(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
         </div>
+
         <button
           type="submit"
-          className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition"
+          className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition"
         >
           Confirm Booking
         </button>

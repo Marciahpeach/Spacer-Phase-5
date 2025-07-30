@@ -1,9 +1,9 @@
+// api.js
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:5000"; // Update this if your Flask backend URL is different
+const API_URL = "http://localhost:5000/api";
 const SPACES_KEY = "spaces";
 
-// Get all spaces from localStorage
 export function getSpaces() {
   try {
     const stored = localStorage.getItem(SPACES_KEY);
@@ -14,7 +14,6 @@ export function getSpaces() {
   }
 }
 
-// Save updated list of spaces to localStorage
 function saveSpaces(spaces) {
   try {
     localStorage.setItem(SPACES_KEY, JSON.stringify(spaces));
@@ -23,7 +22,6 @@ function saveSpaces(spaces) {
   }
 }
 
-// Get one space by ID
 export function getSpaceById(id) {
   try {
     const spaces = getSpaces();
@@ -35,7 +33,6 @@ export function getSpaceById(id) {
   }
 }
 
-// Add a new space to localStorage (and optionally backend)
 export function addSpace(newSpace) {
   try {
     const spaces = getSpaces();
@@ -54,54 +51,14 @@ export function addSpace(newSpace) {
   }
 }
 
-// ✅ Book a space — update both backend and localStorage
-export async function bookSpace(id, bookingDetails) {
+
+// ✅ Book space (mark unavailable)
+export async function updateSpaceAvailability(spaceId) {
   try {
-    // Post booking to backend
-    await axios.post(`${API_BASE_URL}/bookings`, {
-      space_id: id,
-      ...bookingDetails,
-    });
-
-    // Mark space as unavailable in backend
-    await axios.patch(`${API_BASE_URL}/spaces/${id}`, {
-      available: false,
-    });
-
-    // Optional localStorage update for smoother UI
-    const spaces = getSpaces();
-    const index = spaces.findIndex((s) => String(s.id) === String(id));
-    if (index !== -1) {
-      spaces[index].available = false;
-      spaces[index].booking = bookingDetails;
-      saveSpaces(spaces);
-    }
-
-    return true;
-  } catch (error) {
-    console.error("❌ Booking failed:", error.response?.data || error.message);
-    return false;
-  }
-}
-
-// ✅ Update availability only (if admin manually toggles availability)
-export async function updateSpaceAvailability(id, available) {
-  try {
-    const res = await axios.patch(`${API_BASE_URL}/spaces/${id}`, {
-      available,
-    });
-
-    // Optional: update localStorage too
-    const spaces = getSpaces();
-    const index = spaces.findIndex((s) => String(s.id) === String(id));
-    if (index !== -1) {
-      spaces[index].available = available;
-      saveSpaces(spaces);
-    }
-
+    const res = await axios.patch(`${API_URL}/spaces/${spaceId}/book`);
     return res.data;
   } catch (error) {
-    console.error("❌ Failed to update availability:", error.response?.data || error.message);
-    return null;
+    console.error("❌ Failed to update availability:", error.message);
+    throw error;
   }
 }
