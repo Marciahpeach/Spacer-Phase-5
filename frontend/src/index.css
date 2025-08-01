@@ -1,0 +1,1204 @@
+/* frontend/src/style.css - Updated for New Homepage Card Design */
+
+/* --- Global Styles & Variables --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+    /* Light Mode Colors */
+    --color-primary: #3b82f6; /* Main brand blue */
+    --color-primary-dark: #2563eb;
+    --color-primary-light: #bfdbfe;
+    --color-accent: #8b5cf6; /* A vibrant accent for highlights */
+    --color-accent-dark: #7c3aed;
+
+    --color-text-heading: #1a202c; /* Very dark for headings */
+    --color-text-body: #4a5568; /* Slightly lighter for body text */
+    --color-text-subtle: #718096; /* For secondary info, placeholders */
+    --color-text-light: #f7fafc; /* For text on dark backgrounds */
+
+    --color-bg-light: #f7fafc; /* Almost white background */
+    --color-bg-card: #ffffff; /* Pure white for cards */
+    --color-bg-dark: #2d3748; /* Dark mode background or footer */
+
+    --color-border: #e2e8f0; /* Light border for separation */
+
+    --color-success: #10b981;
+    --color-success-bg: #ecfdf5;
+    --color-error: #ef4444;
+    --color-error-bg: #fef2f2;
+    --color-info: #60a5fa;
+    --color-info-bg: #eff6ff;
+
+    /* Spacing System (based on 8px grid) */
+    --space-1: 0.25rem;  /* 4px */
+    --space-2: 0.5rem;   /* 8px */
+    --space-3: 0.75rem;  /* 12px */
+    --space-4: 1rem;     /* 16px */
+    --space-5: 1.25rem;  /* 20px */
+    --space-6: 1.5rem;   /* 24px */
+    --space-8: 2rem;     /* 32px */
+    --space-10: 2.5rem;  /* 40px */
+    --space-12: 3rem;    /* 48px */
+    --space-16: 4rem;    /* 64px */
+
+    /* Border Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1.5rem;
+    --radius-3xl: 2rem;
+    --radius-full: 9999px;
+
+    /* Shadows (more subtle and layered) */
+    --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.12), 0 4px 6px -2px rgba(0, 0, 0, 0.08);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.06);
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    --shadow-inset: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* Dark Mode Variables */
+body.dark-mode {
+    --color-primary: #6366f1; /* A slightly softer blue for dark mode */
+    --color-primary-dark: #4f46e5;
+    --color-primary-light: #a78bfa; /* Lighter for focus rings */
+    --color-accent: #a78bfa; /* Dark mode accent */
+    --color-accent-dark: #8b5cf6;
+
+    --color-text-heading: #e2e8f0; /* Light gray for headings */
+    --color-text-body: #a0aec0; /* Medium gray for body text */
+    --color-text-subtle: #718096; /* Darker gray for subtle elements */
+    --color-text-light: #1a202c; /* For text on light backgrounds */
+
+    --color-bg-light: #1a202c; /* Dark background */
+    --color-bg-card: #2d3748; /* Darker background for cards */
+    --color-bg-dark: #1a202c; /* Consistent dark background */
+
+    --color-border: #4a5568; /* Darker border for separation */
+
+    --color-success: #34d399; /* Lighter green */
+    --color-success-bg: #10b981; /* Darker green background */
+    --color-error: #f87171; /* Lighter red */
+    --color-error-bg: #ef4444; /* Darker red background */
+    --color-info: #93c5fd; /* Lighter blue */
+    --color-info-bg: #60a5fa; /* Darker blue background */
+
+    /* Dark mode shadows (more subtle) */
+    --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.15), 0 1px 2px 0 rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.25), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.15);
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    --shadow-inset: inset 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--color-bg-light);
+    color: var(--color-text-body);
+    line-height: 1.6;
+    scroll-behavior: smooth;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for dark mode */
+}
+
+#root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Reusable Components / Base Elements --- */
+.container {
+    max-width: 1300px; /* Slightly wider max-width */
+    margin-left: auto;
+    margin-right: auto;
+    padding: var(--space-4); /* Default padding */
+}
+
+@media (min-width: 640px) { /* sm breakpoint */
+    .container {
+        padding: var(--space-6);
+    }
+}
+
+@media (min-width: 768px) { /* md breakpoint */
+    .container {
+        padding: var(--space-8);
+    }
+}
+
+.card {
+    background-color: var(--color-bg-card);
+    border-radius: var(--radius-lg); /* Slightly less rounded than before for general cards */
+    box-shadow: var(--shadow-md); /* Softer general card shadow */
+    border: 1px solid var(--color-border);
+    padding: var(--space-8); /* Consistent padding for cards */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* --- Buttons --- */
+.btn {
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-md); /* Consistent rounding for buttons */
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    white-space: nowrap;
+    border: none;
+    font-size: 1rem;
+    letter-spacing: 0.02em; /* Slight letter spacing */
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-dark);
+    transform: translateY(-3px); /* Prominent lift */
+    box-shadow: var(--shadow-xl); /* Stronger shadow on hover */
+}
+
+.btn-primary:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px var(--color-primary-light); /* Clearer focus ring */
+}
+
+.btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-secondary {
+    background-color: var(--color-border);
+    color: var(--color-text-body);
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-text-subtle); /* Slightly darker gray */
+    color: var(--color-text-heading);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-success {
+    background-color: var(--color-success);
+    color: var(--color-text-light);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-success:hover {
+    background-color: var(--color-success-dark);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-xl);
+}
+
+.btn-success:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.4);
+}
+
+.btn-purple {
+    background-color: var(--color-accent);
+    color: var(--color-text-light);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-purple:hover {
+    background-color: var(--color-accent-dark);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-xl);
+}
+
+/* Dark Mode Toggle Button */
+.dark-mode-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--color-text-subtle);
+    transition: color 0.3s ease, transform 0.3s ease;
+    padding: var(--space-2);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: var(--space-4); /* Add some space from other buttons */
+}
+
+.dark-mode-toggle:hover {
+    color: var(--color-primary);
+    transform: rotate(15deg);
+}
+
+/* Sun icon for light mode */
+.dark-mode-toggle .icon-sun {
+    display: block;
+}
+
+/* Moon icon for dark mode */
+.dark-mode-toggle .icon-moon {
+    display: none;
+}
+
+body.dark-mode .dark-mode-toggle .icon-sun {
+    display: none;
+}
+
+body.dark-mode .dark-mode-toggle .icon-moon {
+    display: block;
+}
+
+
+/* --- Form Elements --- */
+.form-group {
+    margin-bottom: var(--space-5); /* Consistent spacing between form fields */
+}
+
+.form-label {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600; /* Bolder labels */
+    color: var(--color-text-heading);
+    margin-bottom: var(--space-2);
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    display: block;
+    width: 100%;
+    padding: var(--space-3) var(--space-4); /* More comfortable padding */
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-xs); /* Subtle input shadow */
+    transition: all 0.2s ease-in-out, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    font-size: 1rem;
+    color: var(--color-text-body);
+    background-color: var(--color-bg-card);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+    color: var(--color-text-subtle);
+    opacity: 0.8;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 120px; /* Taller text area for descriptions */
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-4); /* Default margin for checkboxes */
+}
+
+.checkbox-input {
+    height: 1.15rem;
+    width: 1.15rem;
+    accent-color: var(--color-primary); /* Use accent-color for checkbox fill */
+    border-color: var(--color-text-subtle);
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.checkbox-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.checkbox-label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text-heading);
+    cursor: pointer;
+}
+
+/* --- Messages (Error/Success/Info) --- */
+.message-box {
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-5);
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    animation: fadeIn 0.5s ease-out;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.message-error {
+    background-color: var(--color-error-bg);
+    color: var(--color-error);
+    border: 1px solid var(--color-error);
+}
+
+.message-success {
+    background-color: var(--color-success-bg);
+    color: var(--color-success);
+    border: 1px solid var(--color-success);
+}
+
+.message-info {
+    background-color: var(--color-info-bg);
+    color: var(--color-info);
+    border: 1px solid var(--color-info);
+}
+
+/* --- App.jsx Styles (Header, Hero, Footer) --- */
+.app-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-bg-light);
+    transition: background-color 0.3s ease;
+}
+
+.navbar {
+    background-color: var(--color-bg-card);
+    padding: var(--space-3) var(--space-8); /* Adjusted vertical padding for a more appealing height */
+    box-shadow: var(--shadow-sm); /* Subtle shadow for navbar */
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid var(--color-border);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navbar-content {
+    display: flex;
+    flex-direction: column; /* Default to column for mobile */
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1300px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+.navbar-title {
+    color: var(--color-text-heading);
+    font-size: 1.8rem; /* Slightly smaller for better fit on mobile */
+    font-weight: 800;
+    margin-bottom: var(--space-3); /* Adjusted margin for mobile */
+    letter-spacing: -0.02em; /* Tighten tracking */
+    transition: color 0.3s ease;
+}
+
+.navbar-buttons-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4); /* Gap between nav buttons and toggle */
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.navbar-buttons {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    justify-content: center;
+    gap: var(--space-4);
+}
+
+.navbar-button {
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    transition: all 0.2s ease-in-out, color 0.3s ease, background-color 0.3s ease;
+    color: var(--color-text-body);
+    text-decoration: none;
+    background: transparent;
+    border: none;
+    font-size: 0.95rem;
+}
+
+.navbar-button:hover {
+    color: var(--color-primary);
+    background-color: rgba(var(--color-primary-light), 0.2);
+    transform: none;
+}
+
+.navbar-button.active {
+    color: var(--color-primary);
+    background-color: rgba(var(--color-primary-light), 0.3);
+    font-weight: 600;
+    box-shadow: none;
+    transform: none;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: var(--space-10) 0; /* Vertical padding, full width */
+}
+
+.hero-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-16);
+    padding: var(--space-10) var(--space-4);
+    background-color: transparent;
+    text-align: center;
+}
+
+.hero-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--color-text-heading);
+    margin-bottom: var(--space-4);
+    line-height: 1.2;
+    letter-spacing: -0.03em; /* Tighter tracking for headings */
+    animation: slideInUp 0.8s ease-out forwards;
+    transition: color 0.3s ease;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: var(--color-text-body);
+    max-width: 60rem;
+    margin-bottom: var(--space-8);
+    animation: slideInUp 0.9s ease-out forwards;
+    transition: color 0.3s ease;
+}
+
+.backend-test-area {
+    margin-top: var(--space-8);
+    padding: var(--space-4);
+    background-color: var(--color-info-bg);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-inset);
+    width: 100%;
+    max-width: 36rem;
+    text-align: center;
+    border: 1px solid var(--color-info);
+    animation: fadeIn 1s ease-out forwards;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.backend-message {
+    font-size: 1rem;
+    color: var(--color-info);
+    font-family: monospace;
+    word-break: break-all;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.footer {
+    background-color: var(--color-bg-card);
+    color: var(--color-text-subtle);
+    padding: var(--space-6);
+    text-align: center;
+    font-size: 0.875rem;
+    box-shadow: var(--shadow-sm);
+    border-top: 1px solid var(--color-border);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* --- AdminDashboard.jsx Styles --- */
+.admin-dashboard-container {
+    background-color: var(--color-bg-card);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--color-border);
+    padding: var(--space-10);
+    max-width: 1000px;
+    margin: auto;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.admin-dashboard-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-text-heading);
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-4);
+    border-bottom: 2px solid var(--color-border);
+    text-align: center;
+    letter-spacing: -0.02em;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.admin-nav {
+    margin-bottom: var(--space-8);
+    display: flex;
+    flex-direction: column; /* Default to column for mobile */
+    justify-content: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+}
+
+.admin-nav-button {
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 1.05rem;
+    transition: all 0.3s ease-in-out, background-color 0.3s ease, color 0.3s ease;
+    text-decoration: none;
+    border: none;
+}
+
+.admin-nav-button.active {
+    background-color: var(--color-accent);
+    color: var(--color-text-light);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.admin-nav-button:not(.active) {
+    background-color: var(--color-border);
+    color: var(--color-text-body);
+}
+
+.admin-nav-button:not(.active):hover {
+    background-color: var(--color-text-subtle);
+    color: var(--color-text-heading);
+    transform: translateY(-2px);
+}
+
+.admin-content {
+    margin-top: var(--space-8);
+}
+
+/* --- SpaceList.jsx Styles (NEW Card Design) --- */
+.space-list-section {
+    padding: var(--space-8);
+    background-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+}
+
+.space-list-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-text-heading);
+    margin-bottom: var(--space-10);
+    padding-bottom: var(--space-4);
+    text-align: center;
+    letter-spacing: -0.03em;
+    transition: color 0.3s ease;
+}
+
+.space-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Default to single column */
+    gap: var(--space-8);
+}
+
+.space-card {
+    background-color: var(--color-bg-card);
+    border-radius: var(--radius-lg); /* Less rounded corners for the new design */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Softer shadow as per image */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+    border: 1px solid var(--color-border); /* Subtle border */
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+.space-card:hover {
+    transform: translateY(-5px); /* Subtle lift on hover */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); /* Slightly stronger shadow on hover */
+}
+
+.space-card-image-container {
+    position: relative;
+    width: 100%;
+    padding-top: 66.66%; /* 3:2 aspect ratio for images (e.g., 300px width, 200px height) */
+    background-color: var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-subtle);
+    overflow: hidden;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0; /* Rounded top corners only */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.space-card-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.space-card-image:hover {
+    transform: scale(1.05); /* Subtle zoom */
+}
+
+.space-card-image-placeholder {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.space-card-content {
+    padding: var(--space-4) var(--space-5); /* Adjusted padding for content */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    text-align: left; /* Ensure left alignment */
+}
+
+.space-card-title {
+    font-size: 1.25rem; /* Slightly smaller title */
+    font-weight: 700;
+    color: var(--color-text-heading);
+    margin-bottom: var(--space-2);
+    line-height: 1.3;
+    transition: color 0.3s ease;
+}
+
+.space-card-detail {
+    color: var(--color-text-body);
+    font-size: 0.9rem; /* Slightly smaller detail text */
+    margin-bottom: var(--space-1);
+    transition: color 0.3s ease;
+}
+
+.space-card-detail strong {
+    font-weight: 600;
+    color: var(--color-text-heading);
+    transition: color 0.3s ease;
+}
+
+.space-card-price {
+    color: var(--color-text-heading); /* Price color from screenshot */
+    font-weight: 700;
+    font-size: 1.1rem; /* Adjusted price font size */
+    margin-top: var(--space-2);
+    transition: color 0.3s ease;
+}
+
+.space-card-availability {
+    color: var(--color-success); /* Green for 'Available' */
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-top: var(--space-1);
+    margin-bottom: var(--space-4); /* Space before button */
+    transition: color 0.3s ease;
+}
+
+.space-card-description {
+    display: none; /* Hide description as per the new design */
+}
+
+.space-card-amenities {
+    display: none; /* Hide amenities as per the new design */
+}
+
+.space-card-footer {
+    padding: 0 var(--space-5) var(--space-4); /* Padding for the button area */
+    display: flex;
+    justify-content: center; /* Center the button */
+    width: 100%;
+}
+
+.space-card-footer .btn {
+    width: calc(100% - var(--space-2)); /* Full width minus some padding */
+    padding: var(--space-3);
+    border-radius: var(--radius-md); /* Consistent button radius */
+    font-size: 0.95rem;
+}
+
+
+/* --- BookingForm.jsx Styles (Modal) --- */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6); /* Darker, slightly transparent black */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4);
+    z-index: 50;
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.modal-content {
+    background-color: var(--color-bg-card);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-2xl);
+    padding: var(--space-8);
+    width: 100%;
+    max-width: 40rem; /* Wider modal */
+    position: relative;
+    transform: scale(0.95);
+    animation: scaleIn 0.3s ease-out forwards;
+    border: 1px solid var(--color-border);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modal-close-button {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    color: var(--color-text-subtle);
+    font-size: 2.2rem; /* Larger close icon */
+    font-weight: 700;
+    transition: color 0.2s ease, transform 0.2s ease;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-1);
+    line-height: 1;
+}
+
+.modal-close-button:hover {
+    color: var(--color-error);
+    transform: rotate(90deg);
+}
+
+.modal-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text-heading);
+    margin-bottom: var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-4);
+    text-align: center;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.modal-title span {
+    color: var(--color-primary);
+    transition: color 0.3s ease;
+}
+
+.modal-price-info {
+    color: var(--color-text-body);
+    margin-bottom: var(--space-6);
+    text-align: center;
+    font-size: 1.15rem;
+    transition: color 0.3s ease;
+}
+
+.modal-price-info strong {
+    font-weight: 600;
+    color: var(--color-success);
+    transition: color 0.3s ease;
+}
+
+/* --- Management Forms & Tables (UserManagement, SpaceManagement, UserBookings) --- */
+.management-section {
+    background-color: var(--color-bg-card);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--color-border);
+    padding: var(--space-8);
+    max-width: 1200px; /* Allow wider for tables */
+    margin: auto;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.management-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text-heading);
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    text-align: center;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.form-section {
+    margin-bottom: var(--space-10);
+    padding: var(--space-8);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background-color: var(--color-bg-light);
+    box-shadow: var(--shadow-inset);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-section-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--color-text-heading);
+    margin-bottom: var(--space-6);
+    text-align: center;
+    transition: color 0.3s ease;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Default to single column */
+    gap: var(--space-5);
+    margin-bottom: var(--space-4);
+}
+
+.form-grid-full-width {
+    grid-column: 1 / -1;
+}
+
+.table-section-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--color-text-heading);
+    margin-bottom: var(--space-6);
+    text-align: center;
+    transition: color 0.3s ease;
+}
+
+.table-container {
+    overflow-x: auto;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-border);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.data-table {
+    min-width: 100%;
+    background-color: var(--color-bg-card);
+    border-collapse: collapse;
+    transition: background-color 0.3s ease;
+}
+
+.data-table th,
+.data-table td {
+    padding: var(--space-4) var(--space-5); /* More padding */
+    text-align: left;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+.data-table thead {
+    background-color: var(--color-bg-light);
+    border-bottom: 1px solid var(--color-border);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.data-table th {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-subtle);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.data-table tbody tr {
+    border-bottom: 1px solid var(--color-border);
+    transition: background-color 0.15s ease, border-color 0.3s ease;
+}
+
+.data-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+    background-color: var(--color-bg-light); /* Very light hover background */
+}
+
+.data-table td {
+    font-size: 0.95rem;
+    color: var(--color-text-body);
+}
+
+.data-table td.font-medium {
+    font-weight: 500;
+    color: var(--color-text-heading);
+}
+
+.status-badge {
+    padding: var(--space-2) var(--space-3);
+    display: inline-flex;
+    font-size: 0.75rem;
+    line-height: 1.2;
+    font-weight: 600;
+    border-radius: var(--radius-full);
+    text-transform: capitalize;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.status-badge.green {
+    background-color: var(--color-success-bg);
+    color: var(--color-success);
+}
+
+.status-badge.red {
+    background-color: var(--color-error-bg);
+    color: var(--color-error);
+}
+
+.status-badge.yellow {
+    background-color: #fffbeb; /* Specific for yellow, hardcoded as it's less common */
+    color: #92400e;
+}
+
+.status-badge.purple {
+    background-color: #ede9fe;
+    color: #5b21b6;
+}
+
+.status-badge.blue {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.table-image {
+    height: 60px; /* Fixed height for consistency */
+    width: 100px; /* Fixed width for consistency */
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--color-border);
+    transition: border-color 0.3s ease;
+}
+
+.table-image-placeholder {
+    color: var(--color-text-subtle);
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.amenities-list {
+    list-style: disc;
+    list-style-position: inside;
+    font-size: 0.85rem;
+    color: var(--color-text-body);
+    transition: color 0.3s ease;
+}
+
+.amenities-none {
+    color: var(--color-text-subtle);
+    font-style: italic;
+    transition: color 0.3s ease;
+}
+
+/* --- Login.jsx Styles --- */
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 160px); /* Adjust based on header/footer height */
+    padding: var(--space-8);
+}
+
+.login-card {
+    background-color: var(--color-bg-card);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--color-border);
+    padding: var(--space-10);
+    width: 100%;
+    max-width: 38rem; /* Wider login card */
+    text-align: center;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text-heading);
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.login-form {
+    margin-bottom: var(--space-6);
+}
+
+.login-help-text {
+    margin-top: var(--space-8);
+    text-align: center;
+    color: var(--color-text-body);
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.login-help-text span {
+    font-weight: 600;
+    color: var(--color-primary);
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+}
+
+.login-help-text span:hover {
+    color: var(--color-primary-dark);
+}
+
+/* --- Keyframes and Animations --- */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* Staggered animation for space cards */
+.space-grid .space-card:nth-child(1) { animation-delay: 0s; }
+.space-grid .space-card:nth-child(2) { animation-delay: 0.1s; }
+.space-grid .space-card:nth-child(3) { animation-delay: 0.2s; }
+.space-grid .space-card:nth-child(4) { animation-delay: 0.3s; }
+.space-grid .space-card:nth-child(5) { animation-delay: 0.4s; }
+.space-grid .space-card:nth-child(6) { animation-delay: 0.5s; }
+/* Add more as needed for your typical number of cards */
+
+
+/* --- Responsive Adjustments (Media Queries) --- */
+
+/* Small devices (sm) - 640px and up */
+@media (min-width: 640px) {
+    .navbar-content {
+        flex-direction: row; /* Navbar becomes row on small screens */
+    }
+    .navbar-title {
+        margin-bottom: 0;
+        font-size: 2rem; /* Adjusted font size for better fit */
+    }
+    .navbar-buttons-wrapper {
+        justify-content: flex-end; /* Align to right */
+    }
+    .navbar-buttons {
+        gap: var(--space-6);
+    }
+    .hero-title {
+        font-size: 3.5rem;
+    }
+    .hero-subtitle {
+        font-size: 1.3rem;
+    }
+    .admin-dashboard-title,
+    .space-list-title,
+    .management-title,
+    .login-title {
+        font-size: 2.5rem;
+    }
+    .admin-nav {
+        flex-direction: row;
+        gap: var(--space-6);
+    }
+    .admin-nav-button {
+        font-size: 1.1rem;
+    }
+    .space-grid {
+        grid-template-columns: repeat(2, 1fr); /* Two columns on small devices */
+        gap: var(--space-10);
+    }
+    .space-card-image-container {
+        padding-top: 60%; /* Slightly adjusted aspect ratio for smaller screens */
+    }
+    .modal-content {
+        padding: var(--space-10);
+    }
+    .form-grid {
+        gap: var(--space-6);
+    }
+    .form-section-title,
+    .table-section-title {
+        font-size: 1.8rem;
+    }
+}
+
+/* Medium devices (md) - 768px and up */
+@media (min-width: 768px) {
+    .navbar {
+        padding: var(--space-4) var(--space-8); /* Slightly more padding for medium screens */
+    }
+    .navbar-title {
+        font-size: 2.2rem; /* Adjusted font size */
+    }
+    .hero-title {
+        font-size: 4.5rem;
+    }
+    .hero-subtitle {
+        font-size: 1.5rem;
+    }
+    .main-content {
+        padding: var(--space-12) 0;
+    }
+    .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-8);
+    }
+    .form-grid-full-width-md { /* Specific for password field in UserManagement */
+        grid-column: 1 / -1;
+    }
+    .space-grid {
+        grid-template-columns: repeat(3, 1fr); /* Three columns on medium devices */
+        gap: var(--space-10);
+    }
+    .space-card-image-container {
+        padding-top: 66.66%; /* Back to 3:2 for 3 columns */
+    }
+}
+
+/* Large devices (lg) - 1024px and up */
+@media (min-width: 1024px) {
+    .navbar-title {
+        font-size: 2.5rem; /* Larger font for desktop */
+    }
+    .space-grid {
+        grid-template-columns: repeat(4, 1fr); /* Four columns on large devices */
+        gap: var(--space-12);
+    }
+    .space-card-image-container {
+        padding-top: 66.66%; /* Maintain 3:2 for 4 columns */
+    }
+}
+
+/* Extra Large devices (xl) - 1280px and up */
+@media (min-width: 1280px) {
+    .hero-title {
+        font-size: 5.5rem; /* Even larger hero title */
+    }
+    .hero-subtitle {
+        font-size: 1.6rem;
+    }
+    /* Space grid remains 4 columns, gap increases slightly */
+    .space-grid {
+        gap: var(--space-12);
+    }
+}
