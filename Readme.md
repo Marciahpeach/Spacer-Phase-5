@@ -107,6 +107,14 @@ Deployed Links
 1.Frontend
 https://spacer-phase-5-gamma.vercel.app/
 
+2.Backend
+https://spacer-phase-5-5.onrender.com
+## Note  the backend  seems to have issues when  trying to deploy
+
+
+Presentation Link
+https://docs.google.com/presentation/d/1JO0ofpYWM4-Qe3yZAKywp-5Lr_HoG4v4cBv63vUlvUo/edit?usp=sharing
+
 ❤️ Credits
 Built with love by Marciah Ayora and collaborators.
 Inspired by platforms like Peerspace and Airbnb.
