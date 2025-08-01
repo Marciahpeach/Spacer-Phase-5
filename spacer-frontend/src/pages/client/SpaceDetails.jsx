@@ -1,3 +1,4 @@
+// src/pages/client/SpaceDetails.jsx
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getSpaceById } from "../../services/api";
@@ -31,13 +32,15 @@ export default function SpaceDetails() {
         </span>
       </p>
 
-      {space.available && (
+      {space.available ? (
         <Link
           to={`/book/${space.id}`}
           className="inline-block mt-6 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
         >
           Book This Space
         </Link>
+      ) : (
+        <p className="mt-6 text-red-500 font-semibold">This space is already booked.</p>
       )}
     </div>
   );

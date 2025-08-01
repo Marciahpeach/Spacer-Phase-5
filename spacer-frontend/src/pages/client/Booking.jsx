@@ -10,37 +10,42 @@ export default function Booking() {
   const [space, setSpace] = useState(null);
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    async function fetchSpace() {
-      try {
-        const data = await getSpaceById(id);
-        if (!data || !data.available) {
-          alert("This space is unavailable or does not exist.");
-          navigate("/");
-        } else {
-          setSpace(data);
-        }
-      } catch (err) {
-        console.error("Error loading space:", err);
-        alert("Something went wrong while fetching the space.");
-        navigate("/");
-      }
+    const data = getSpaceById(id);
+    if (!data || !data.available) {
+      alert("This space is unavailable or does not exist.");
+      navigate("/");
+    } else {
+      setSpace(data);
     }
-
-    fetchSpace();
   }, [id, navigate]);
 
- const handleBooking = async () => {
-  try {
-    await updateSpaceAvailability(spaceId, { available: false });
-    alert("Booking successful!");
-  } catch (error) {
-    console.error("Booking error:", error);
-  }
-};
+  const handleBooking = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-  if (!space) return <p className="text-center mt-10">Loading...</p>;
+    try {
+      const updatedSpace = {
+        available: false,
+        bookedBy: name,
+        bookedDate: date,
+      };
+
+      await updateSpaceAvailability(id, updatedSpace);
+
+      alert(`✅ Booking confirmed for "${space.name}" on ${date}`);
+      navigate(`/spaces/${id}`);
+    } catch (error) {
+      console.error("Booking error:", error);
+      alert("Booking failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!space) return <p className="text-center mt-10">Loading space details...</p>;
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
@@ -77,9 +82,12 @@ export default function Booking() {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition"
+          disabled={loading}
+          className={`w-full py-3 rounded-md transition text-white ${
+            loading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
+          }`}
         >
-          Confirm Booking
+          {loading ? "Booking..." : "Confirm Booking"}
         </button>
       </form>
     </div>

@@ -30,8 +30,8 @@ def debug_spaces():
     return jsonify([space.id for space in spaces]), 200
 
 # PATCH /api/spaces/<int:space_id>
-@spaces_bp.route('/<int:space_id>', methods=["PATCH"])
-def update_space(space_id):
+@spaces_bp.route('/<int:space_id>/book', methods=["PATCH"])
+def book_space(space_id):
     data = request.get_json()
 
     space = Space.query.get(space_id)
@@ -43,6 +43,7 @@ def update_space(space_id):
 
     space.available = data["available"]
     db.session.commit()
+
     return jsonify(space.to_dict()), 200
 
 

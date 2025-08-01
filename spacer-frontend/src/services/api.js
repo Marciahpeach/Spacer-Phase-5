@@ -1,9 +1,10 @@
-// api.js
+// src/services/api.js
 import axios from "axios";
 
 export const API_BASE_URL = "http://localhost:5000/api";
 const SPACES_KEY = "spaces";
 
+// Get all spaces from localStorage
 export function getSpaces() {
   try {
     const stored = localStorage.getItem(SPACES_KEY);
@@ -14,6 +15,7 @@ export function getSpaces() {
   }
 }
 
+// Save updated space list to localStorage
 function saveSpaces(spaces) {
   try {
     localStorage.setItem(SPACES_KEY, JSON.stringify(spaces));
@@ -22,17 +24,18 @@ function saveSpaces(spaces) {
   }
 }
 
+// Get a specific space by ID
 export function getSpaceById(id) {
   try {
     const spaces = getSpaces();
-    const space = spaces.find((s) => String(s.id) === String(id));
-    return space || null;
+    return spaces.find((s) => String(s.id) === String(id)) || null;
   } catch (error) {
     console.error("Error finding space by ID:", error);
     return null;
   }
 }
 
+// Add a new space (local only)
 export function addSpace(newSpace) {
   try {
     const spaces = getSpaces();
@@ -51,14 +54,13 @@ export function addSpace(newSpace) {
   }
 }
 
-// ✅ Book space (mark unavailable)
-export async function updateSpaceAvailability(id, bookingData) {
-  console.log("Calling PATCH for space:", id, "with data:", bookingData);
-
+// ✅ Book a space by updating its availability on backend and in localStorage
+export async function updateSpaceAvailability(spaceId, isAvailable) {
   try {
-    const res = await axios.patch(`${API_BASE_URL}/spaces/${id}/book`, bookingData);
-    console.log("PATCH response:", res.data);
-    return res.data;
+    const response = await axios.patch(`${BASE_URL}/spaces/${spaceId}`, {
+      is_available: isAvailable,
+    });
+    return response.data;
   } catch (error) {
     console.error("❌ Failed to update availability:", error.message);
     throw error;
