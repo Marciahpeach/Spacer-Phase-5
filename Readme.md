@@ -1,7 +1,7 @@
-🚀 Spacer: Your Ultimate Space Booking Solution
+## 🚀 SPACER Your Ultimate Space Booking Solution
 Welcome to Spacer, a full-stack web application designed to simplify the booking and management of various spaces, such as meeting rooms, event venues, or co-working desks. Whether you're a client looking for the perfect spot or an administrator managing space availability and users, Spacer has you covered!
 
-✨ Key Features
+## ✨ KEY FEATURES
 Space Discovery 🏢: Browse available spaces with essential details like location, price, capacity, and amenities.
 
 Effortless Booking 🗓️: Easily book a space for a specific time slot, linked to a registered user.
@@ -16,20 +16,20 @@ User-Specific Bookings 👤: (Client) View bookings made by a specific user.
 
 Responsive Design 📱: A clean, professional, and responsive user interface for all devices.
 
-🛠️ Technologies Used
-Frontend:
+### 🛠️ TECHNOLOGIES USED
+# Frontend:
 React.js ⚛️: Building dynamic user interfaces.
 
 HTML5 & CSS3 🎨: Structuring and styling with custom CSS.
 
-Backend:
+# Backend:
 Flask 🐍: A lightweight Python web framework for the API.
 
 SQLite 🗄️: A file-based SQL database for data storage.
 
 Flask-CORS 🌐: Handling Cross-Origin Resource Sharing.
 
-🚀 Getting Started
+## 🚀 GETTING STARTED
 Follow these steps to get Spacer running on your local machine.
 
 Prerequisites
@@ -37,10 +37,10 @@ Python 3.8+
 
 Node.js (LTS recommended) & npm (or Yarn)
 
-Backend Setup
+## Backend Setup
 Clone the repository:
 
-git clone <repository_url>
+git clone <git@github.com:Marciahpeach/Spacer-Phase-5.git>
 cd spacer-project/backend
 
 Create & activate a virtual environment:
@@ -67,7 +67,7 @@ flask run
 
 (Server runs on http://127.0.0.1:5000)
 
-Frontend Setup
+## Frontend Setup
 Navigate to the frontend directory:
 
 cd ../frontend
@@ -84,7 +84,7 @@ npm start
 
 (App opens in browser at http://localhost:3000)
 
-📁 Project Structure
+## 📁 Project Structure
 spacer-project/
 ├── backend/
 │   ├── app.py             # Flask application, API endpoints
@@ -109,7 +109,7 @@ spacer-project/
     ├── package.json       # Node.js dependencies and scripts
     └── ...                # Other React files
 
-🗄️ Database Schema
+### 🗄️ DATABASE SCHEMA
 users table:
 id (INTEGER, PRIMARY KEY)
 
@@ -163,7 +163,7 @@ status (TEXT, NOT NULL, DEFAULT 'confirmed')
 
 created_at (TEXT, DEFAULT CURRENT_TIMESTAMP)
 
-🔗 API Endpoints (Backend)
+## 🔗 API ENDPOINTS (BACKEND)
 GET /: Basic connection test.
 
 GET /users: Get all users.
@@ -182,7 +182,7 @@ POST /bookings: Create a new booking.
 
 POST /login: User login (basic, currently returns success message).
 
-🎨 Styling
+## 🎨 STYLINGS
 The frontend is styled using a custom style.css file, providing a professional and responsive design without relying on CSS frameworks. All components use semantic class names defined in this central stylesheet.
 
 🚀 Future Enhancements
@@ -202,19 +202,20 @@ Admin Features: Add functionality to edit/delete users/spaces, and manage bookin
 
 Notifications: Implement email or in-app notifications.
 
-Deployed links
-1.Frontend
+## DEPLOYED LINKS
+## 1.Frontend
 https://vercel.com/marciahpeachs-projects/spacer-phase-5
 
-2.Backend
+## 2.Backend
 https://spacer-phase-5-6.onrender.com
 
-3.Presentation link
+
+## 3.Presentation link
 https://docs.google.com/presentation/d/1JO0ofpYWM4-Qe3yZAKywp-5Lr_HoG4v4cBv63vUlvUo/edit?usp=sharing
 
 
-🤝 Contributing
+### 🤝 CONTRIBUTION
 Contributions are welcome! Feel free to open an issue or submit a pull request.
 
-📄 License
+## 📄 LICENSE
 This project is licensed under the MIT License. See the LICENSE file for details.
