@@ -204,10 +204,13 @@ Notifications: Implement email or in-app notifications.
 
 Deployed links
 1.Frontend
+https://vercel.com/marciahpeachs-projects/spacer-phase-5
 
 2.Backend
+https://spacer-phase-5-6.onrender.com
 
 3.Presentation link
+https://docs.google.com/presentation/d/1JO0ofpYWM4-Qe3yZAKywp-5Lr_HoG4v4cBv63vUlvUo/edit?usp=sharing
 
 
 🤝 Contributing
