@@ -11,19 +11,16 @@ function SpaceList() {
 
   const backendUrl = 'http://127.0.0.1:5000'; // Corrected URL
 
-  // Function to fetch spaces from the backend
   const fetchSpaces = async () => {
     setLoading(true);
     setError(null);
     try {
       const response = await fetch(`${backendUrl}/spaces`);
       if (!response.ok) {
-        // Attempt to parse error message if response is not OK
         const errorText = await response.text();
         throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
       }
       const data = await response.json();
-      // Filter for available spaces for the client view
       setSpaces(data.spaces.filter(space => space.is_available));
     } catch (err) {
       console.error('Failed to fetch spaces:', err);
@@ -45,7 +42,7 @@ function SpaceList() {
   const handleBookingSuccess = () => {
     setShowBookingModal(false);
     setSelectedSpace(null);
-    fetchSpaces(); // Refresh the space list to reflect availability change
+    fetchSpaces();
   };
 
   const handleCloseModal = () => {
@@ -54,58 +51,59 @@ function SpaceList() {
   };
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md">
-      <h3 className="text-2xl font-semibold text-gray-700 mb-6">Available Spaces for Booking</h3>
+    <div className="space-list-section">
+      <h3 className="space-list-title">Available Spaces for Booking</h3>
 
-      {loading && <p className="text-blue-500">Loading spaces...</p>}
-      {error && <p className="text-red-500">{error}</p>}
+      {loading && <p className="status-message loading">Loading spaces...</p>}
+      {error && <p className="status-message error">{error}</p>}
 
       {spaces.length === 0 && !loading && !error && (
-        <p className="text-gray-500">No available spaces found. Check back later or contact an admin!</p>
+        <p className="status-message no-spaces">No available spaces found. Check back later or contact an admin!</p>
       )}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      
+      {/* This is the container that will hold the cards */}
+      <div className="space-grid">
         {spaces.map((space) => (
-          <div key={space.id} className="bg-gray-50 rounded-lg shadow-md overflow-hidden flex flex-col">
-            <div className="relative h-48 w-full bg-gray-200 flex items-center justify-center text-gray-400">
+          <div key={space.id} className="space-card">
+            <div className="space-card-image-container">
               {space.image_url ? (
-                <img src={space.image_url} alt={space.name} className="w-full h-full object-cover" onError={(e) => e.target.src = 'https://placehold.co/400x200/CCCCCC/FFFFFF?text=No+Image'} />
+                <img src={space.image_url} alt={space.name} className="space-card-image" onError={(e) => e.target.src = 'https://placehold.co/400x200/CCCCCC/FFFFFF?text=No+Image'} />
               ) : (
-                <span className="text-center">No Image Available</span>
+                <span className="space-card-no-image">No Image Available</span>
               )}
             </div>
-            <div className="p-4 flex-grow flex flex-col">
-              <h4 className="text-xl font-semibold text-gray-800 mb-2">{space.name}</h4>
-              <p className="text-gray-600 text-sm mb-1">
-                <span className="font-medium">Location:</span> {space.location}
+            <div className="space-card-content">
+              <h4 className="space-card-title">{space.name}</h4>
+              <p className="space-card-detail">
+                <span className="space-card-detail-label">Location:</span> {space.location}
               </p>
-              <p className="text-gray-600 text-sm mb-1">
-                <span className="font-medium">Price:</span> ${space.price_per_hour.toFixed(2)} / hour
+              <p className="space-card-detail">
+                <span className="space-card-detail-label">Price:</span> ${space.price_per_hour.toFixed(2)} / hour
               </p>
-              <p className="text-gray-600 text-sm mb-1">
-                <span className="font-medium">Capacity:</span> {space.capacity} people
+              <p className="space-card-detail">
+                <span className="space-card-detail-label">Capacity:</span> {space.capacity} people
               </p>
               {space.description && (
-                <p className="text-gray-700 text-sm mt-2 flex-grow">{space.description}</p>
+                <p className="space-card-description">{space.description}</p>
               )}
               {space.amenities && space.amenities.length > 0 && (
-                <div className="mt-2">
-                  <span className="font-medium text-gray-700 text-sm">Amenities:</span>
-                  <ul className="list-disc list-inside text-xs text-gray-600">
+                <div className="space-card-amenities">
+                  <span className="space-card-detail-label">Amenities:</span>
+                  <ul className="space-card-amenities-list">
                     {space.amenities.map((amenity, index) => (
                       <li key={index}>{amenity}</li>
                     ))}
                   </ul>
                 </div>
               )}
-              <div className="mt-4 pt-4 border-t border-gray-200 flex justify-end">
-                <button
-                  onClick={() => handleBookClick(space)}
-                  className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-300 ease-in-out"
-                >
-                  Book Now
-                </button>
-              </div>
+            </div>
+            <div className="space-card-footer">
+              <button
+                onClick={() => handleBookClick(space)}
+                className="btn btn-primary"
+              >
+                Book Now
+              </button>
             </div>
           </div>
         ))}

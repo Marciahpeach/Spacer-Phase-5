@@ -38,34 +38,34 @@ function LoginForm() {
   };
 
   return (
-    <div className="flex items-center justify-center p-4">
-      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
-        <h2 className="text-3xl font-bold text-gray-800 mb-6 border-b pb-4 text-center">Login</h2>
+    <div className="login-container">
+      <div className="login-card">
+        <h2 className="login-title">Login</h2>
 
-        <form onSubmit={handleLogin} className="space-y-6">
-          {message && <p className="text-green-600 text-center font-medium">{message}</p>}
-          {error && <p className="text-red-600 text-center font-medium">{error}</p>}
+        <form onSubmit={handleLogin} className="login-form">
+          {message && <p className="message-box message-success">{message}</p>}
+          {error && <p className="message-box message-error">{error}</p>}
 
-          <div>
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">Username</label>
+          <div className="form-group">
+            <label htmlFor="username" className="form-label">Username</label>
             <input
               type="text"
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="form-input"
               required
             />
           </div>
 
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+          <div className="form-group">
+            <label htmlFor="password" className="form-label">Password</label>
             <input
               type="password"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="form-input"
               required
             />
           </div>
@@ -73,7 +73,7 @@ function LoginForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 transition duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
+            className="btn btn-primary"
           >
             {loading ? 'Logging In...' : 'Login'}
           </button>

@@ -1,32 +1,29 @@
-// frontend/src/components/SpaceManagement.jsx
 import React, { useState, useEffect } from 'react';
 
 function SpaceManagement() {
   const [spaces, setSpaces] = useState([]);
-  const [users, setUsers] = useState([]); // To populate owner_id dropdown
+  const [users, setUsers] = useState([]);
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
   const [description, setDescription] = useState('');
   const [pricePerHour, setPricePerHour] = useState('');
   const [capacity, setCapacity] = useState('');
-  const [ownerId, setOwnerId] = useState(''); // Added ownerId state
+  const [ownerId, setOwnerId] = useState('');
   const [isAvailable, setIsAvailable] = useState(true);
-  const [imageUrl, setImageUrl] = useState(''); // New state for image URL
-  const [amenities, setAmenities] = useState(''); // New state for amenities (comma-separated string)
+  const [imageUrl, setImageUrl] = useState('');
+  const [amenities, setAmenities] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
 
-  const backendUrl = 'http://127.0.0.1:5000'; // Corrected URL
+  const backendUrl = 'http://127.0.0.1:5000';
 
-  // Function to fetch spaces from the backend
   const fetchSpaces = async () => {
     setLoading(true);
     setError(null);
     try {
       const response = await fetch(`${backendUrl}/spaces`);
       if (!response.ok) {
-        // Attempt to parse error message if response is not OK
         const errorText = await response.text();
         throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
       }
@@ -40,7 +37,6 @@ function SpaceManagement() {
     }
   };
 
-  // Function to fetch users for the owner dropdown
   const fetchUsersForDropdown = async () => {
     try {
       const response = await fetch(`${backendUrl}/users`);
@@ -49,30 +45,25 @@ function SpaceManagement() {
       }
       const data = await response.json();
       setUsers(data.users);
-      // Set a default owner if users exist and no owner is selected
       if (data.users.length > 0 && !ownerId) {
         setOwnerId(data.users[0].id);
       }
     } catch (err) {
       console.error('Failed to fetch users for dropdown:', err);
-      // Optionally set an error for the dropdown specifically
     }
   };
 
-  // Fetch data on component mount
   useEffect(() => {
     fetchSpaces();
     fetchUsersForDropdown();
   }, []);
 
-  // Function to handle adding a new space
   const handleAddSpace = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
     setMessage(null);
 
-    // Basic client-side validation
     if (!name || !location || !pricePerHour || !capacity || !ownerId) {
       setError('Please fill in all required fields (Name, Location, Price, Capacity, Owner).');
       setLoading(false);
@@ -103,8 +94,8 @@ function SpaceManagement() {
           capacity: parseInt(capacity),
           owner_id: parseInt(ownerId),
           is_available: isAvailable,
-          image_url: imageUrl, // Send new field
-          amenities: amenities, // Send new field (comma-separated string)
+          image_url: imageUrl,
+          amenities: amenities,
         }),
       });
 
@@ -115,17 +106,15 @@ function SpaceManagement() {
       }
 
       setMessage(data.message);
-      // Clear form fields
       setName('');
       setLocation('');
       setDescription('');
       setPricePerHour('');
       setCapacity('');
-      // Keep ownerId as it might be common, or reset if preferred: setOwnerId('');
       setIsAvailable(true);
-      setImageUrl(''); // Clear new field
-      setAmenities(''); // Clear new field
-      fetchSpaces(); // Refresh the space list
+      setImageUrl('');
+      setAmenities('');
+      fetchSpaces();
     } catch (err) {
       console.error('Failed to add space:', err);
       setError(err.message || 'An unexpected error occurred while adding the space.');
@@ -135,204 +124,199 @@ function SpaceManagement() {
   };
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md">
-      <h3 className="text-2xl font-semibold text-gray-700 mb-6">Manage Spaces</h3>
+    <div className="management-section">
+      <h3 className="management-title">Manage Spaces</h3>
 
-      {/* Add New Space Form */}
-      <form onSubmit={handleAddSpace} className="mb-8 p-6 border border-gray-200 rounded-lg bg-gray-50">
-        <h4 className="text-xl font-medium text-gray-700 mb-4">Add New Space</h4>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
-        {message && <p className="text-green-500 mb-4">{message}</p>}
+      <div className="form-section">
+        <h4 className="form-section-title">Add New Space</h4>
+        <form onSubmit={handleAddSpace}>
+          {error && <p className="message-box message-error">{error}</p>}
+          {message && <p className="message-box message-success">{message}</p>}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div>
-            <label htmlFor="spaceName" className="block text-sm font-medium text-gray-700 mb-1">Space Name</label>
-            <input
-              type="text"
-              id="spaceName"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              required
-            />
+          <div className="form-grid">
+            <div className="form-group">
+              <label htmlFor="spaceName" className="form-label">Space Name</label>
+              <input
+                type="text"
+                id="spaceName"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="form-input"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="location" className="form-label">Location</label>
+              <input
+                type="text"
+                id="location"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                className="form-input"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="pricePerHour" className="form-label">Price Per Hour ($)</label>
+              <input
+                type="number"
+                id="pricePerHour"
+                value={pricePerHour}
+                onChange={(e) => setPricePerHour(e.target.value)}
+                className="form-input"
+                step="0.01"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="capacity" className="form-label">Capacity</label>
+              <input
+                type="number"
+                id="capacity"
+                value={capacity}
+                onChange={(e) => setCapacity(e.target.value)}
+                className="form-input"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="ownerId" className="form-label">Owner (User ID)</label>
+              <select
+                id="ownerId"
+                value={ownerId}
+                onChange={(e) => setOwnerId(e.target.value)}
+                className="form-input"
+                required
+              >
+                <option value="">Select an Owner</option>
+                {users.map(user => (
+                  <option key={user.id} value={user.id}>{user.username} (ID: {user.id})</option>
+                ))}
+              </select>
+              {users.length === 0 && (
+                <p className="form-note error">No users available. Please add users in Admin Dashboard &gt; Manage Users.</p>
+              )}
+            </div>
+            <div className="form-group">
+              <label htmlFor="imageUrl" className="form-label">Image URL (Optional)</label>
+              <input
+                type="url"
+                id="imageUrl"
+                value={imageUrl}
+                onChange={(e) => setImageUrl(e.target.value)}
+                className="form-input"
+                placeholder="e.g., https://placehold.co/600x400"
+              />
+            </div>
+            <div className="form-group form-grid-full-width">
+              <label htmlFor="amenities" className="form-label">Amenities (comma-separated)</label>
+              <input
+                type="text"
+                id="amenities"
+                value={amenities}
+                onChange={(e) => setAmenities(e.target.value)}
+                className="form-input"
+                placeholder="e.g., Wi-Fi, Projector, Whiteboard"
+              />
+            </div>
           </div>
-          <div>
-            <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">Location</label>
-            <input
-              type="text"
-              id="location"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              required
-            />
+          <div className="form-group">
+            <label htmlFor="description" className="form-label">Description (Optional)</label>
+            <textarea
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows="3"
+              className="form-input form-textarea"
+            ></textarea>
           </div>
-          <div>
-            <label htmlFor="pricePerHour" className="block text-sm font-medium text-gray-700 mb-1">Price Per Hour ($)</label>
-            <input
-              type="number"
-              id="pricePerHour"
-              value={pricePerHour}
-              onChange={(e) => setPricePerHour(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              step="0.01"
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="capacity" className="block text-sm font-medium text-gray-700 mb-1">Capacity</label>
-            <input
-              type="number"
-              id="capacity"
-              value={capacity}
-              onChange={(e) => setCapacity(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="ownerId" className="block text-sm font-medium text-gray-700 mb-1">Owner (User ID)</label>
-            <select
-              id="ownerId"
-              value={ownerId}
-              onChange={(e) => setOwnerId(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              required
-            >
-              <option value="">Select an Owner</option>
-              {users.map(user => (
-                <option key={user.id} value={user.id}>{user.username} (ID: {user.id})</option>
-              ))}
-            </select>
-            {users.length === 0 && (
-              <p className="text-sm text-red-500 mt-1">No users available. Please add users in Admin Dashboard &gt; Manage Users.</p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-700 mb-1">Image URL (Optional)</label>
-            <input
-              type="url"
-              id="imageUrl"
-              value={imageUrl}
-              onChange={(e) => setImageUrl(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              placeholder="e.g., https://placehold.co/600x400"
-            />
-          </div>
-          <div>
-            <label htmlFor="amenities" className="block text-sm font-medium text-gray-700 mb-1">Amenities (comma-separated)</label>
-            <input
-              type="text"
-              id="amenities"
-              value={amenities}
-              onChange={(e) => setAmenities(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              placeholder="e.g., Wi-Fi, Projector, Whiteboard"
-            />
-          </div>
-        </div>
-        <div className="mb-4">
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">Description (Optional)</label>
-          <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            rows="3"
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-          ></textarea>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          <div className="flex items-center mt-6 md:mt-0">
+          <div className="checkbox-container">
             <input
               type="checkbox"
               id="isAvailable"
               checked={isAvailable}
               onChange={(e) => setIsAvailable(e.target.checked)}
-              className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              className="checkbox-input"
             />
-            <label htmlFor="isAvailable" className="ml-2 block text-sm font-medium text-gray-700">Is Available</label>
+            <label htmlFor="isAvailable" className="checkbox-label">Is Available</label>
           </div>
-        </div>
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full px-4 py-2 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-75 transition duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {loading ? 'Adding Space...' : 'Add Space'}
-        </button>
-      </form>
+          <button
+            type="submit"
+            disabled={loading}
+            className="btn btn-primary"
+          >
+            {loading ? 'Adding Space...' : 'Add Space'}
+          </button>
+        </form>
+      </div>
 
-      {/* Space List */}
-      <h4 className="text-xl font-medium text-gray-700 mb-4">Existing Spaces</h4>
-      {loading && <p className="text-blue-500">Loading spaces...</p>}
-      {error && !message && <p className="text-red-500">{error}</p>}
+      <div className="table-section">
+        <h4 className="table-section-title">Existing Spaces</h4>
+        {loading && <p className="status-message loading">Loading spaces...</p>}
+        {error && !message && <p className="status-message error">{error}</p>}
+        {spaces.length === 0 && !loading && !error && (
+          <p className="status-message no-spaces">No spaces found. Add one above!</p>
+        )}
 
-      {spaces.length === 0 && !loading && !error && (
-        <p className="text-gray-500">No spaces found. Add one above!</p>
-      )}
-
-      {spaces.length > 0 && (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border border-gray-200 rounded-lg">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg">ID</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price/Hr</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Capacity</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Owner ID</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amenities</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Available</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg">Created At</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {spaces.map((space) => (
-                <tr key={space.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{space.id}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{space.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{space.location}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${space.price_per_hour.toFixed(2)}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{space.capacity}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{space.owner_id}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                    {space.image_url ? (
-                      <img src={space.image_url} alt={space.name} className="h-12 w-12 object-cover rounded-md" onError={(e) => e.target.src = 'https://placehold.co/100x100/CCCCCC/FFFFFF?text=No+Image'} />
-                    ) : (
-                      <span className="text-gray-400">N/A</span>
-                    )}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-700">
-                    {space.amenities && space.amenities.length > 0 ? (
-                      <ul className="list-disc list-inside text-xs">
-                        {space.amenities.map((amenity, index) => (
-                          <li key={index}>{amenity}</li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <span className="text-gray-400">None</span>
-                    )}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                    {space.is_available ? (
-                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                        Yes
-                      </span>
-                    ) : (
-                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                        No
-                      </span>
-                    )}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{new Date(space.created_at).toLocaleDateString()}</td>
+        {spaces.length > 0 && (
+          <div className="table-container">
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Location</th>
+                  <th>Price/Hr</th>
+                  <th>Capacity</th>
+                  <th>Owner ID</th>
+                  <th>Image</th>
+                  <th>Amenities</th>
+                  <th>Available</th>
+                  <th>Created At</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+              </thead>
+              <tbody>
+                {spaces.map((space) => (
+                  <tr key={space.id}>
+                    <td>{space.id}</td>
+                    <td className="font-medium">{space.name}</td>
+                    <td>{space.location}</td>
+                    <td>${space.price_per_hour.toFixed(2)}</td>
+                    <td>{space.capacity}</td>
+                    <td>{space.owner_id}</td>
+                    <td>
+                      {space.image_url ? (
+                        <img src={space.image_url} alt={space.name} className="table-image" onError={(e) => e.target.src = 'https://placehold.co/100x100/CCCCCC/FFFFFF?text=No+Image'} />
+                      ) : (
+                        <span className="table-image-placeholder">N/A</span>
+                      )}
+                    </td>
+                    <td>
+                      {space.amenities && space.amenities.length > 0 ? (
+                        <ul className="amenities-list">
+                          {space.amenities.map((amenity, index) => (
+                            <li key={index}>{amenity}</li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <span className="amenities-none">None</span>
+                      )}
+                    </td>
+                    <td>
+                      {space.is_available ? (
+                        <span className="status-badge green">Yes</span>
+                      ) : (
+                        <span className="status-badge red">No</span>
+                      )}
+                    </td>
+                    <td>{new Date(space.created_at).toLocaleDateString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

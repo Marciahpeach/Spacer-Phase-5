@@ -1,4 +1,4 @@
-/* frontend/src/style.css - Updated for New Homepage Card Design */
+/* frontend/src/style.css - Finalized Stylesheet */
 
 /* --- Global Styles & Variables --- */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
@@ -19,6 +19,7 @@
     --color-bg-light: #f7fafc; /* Almost white background */
     --color-bg-card: #ffffff; /* Pure white for cards */
     --color-bg-dark: #2d3748; /* Dark mode background or footer */
+    --color-bg-form: #edf2f7; /* Light gray for forms */
 
     --color-border: #e2e8f0; /* Light border for separation */
 
@@ -28,6 +29,8 @@
     --color-error-bg: #fef2f2;
     --color-info: #60a5fa;
     --color-info-bg: #eff6ff;
+    --color-warn: #eab308;
+    --color-warn-bg: #fefce8;
 
     /* Spacing System (based on 8px grid) */
     --space-1: 0.25rem;  /* 4px */
@@ -62,31 +65,33 @@
 
 /* Dark Mode Variables */
 body.dark-mode {
-    --color-primary: #6366f1; /* A slightly softer blue for dark mode */
+    --color-primary: #6366f1;
     --color-primary-dark: #4f46e5;
-    --color-primary-light: #a78bfa; /* Lighter for focus rings */
-    --color-accent: #a78bfa; /* Dark mode accent */
+    --color-primary-light: #a78bfa;
+    --color-accent: #a78bfa;
     --color-accent-dark: #8b5cf6;
 
-    --color-text-heading: #e2e8f0; /* Light gray for headings */
-    --color-text-body: #a0aec0; /* Medium gray for body text */
-    --color-text-subtle: #718096; /* Darker gray for subtle elements */
-    --color-text-light: #1a202c; /* For text on light backgrounds */
+    --color-text-heading: #e2e8f0;
+    --color-text-body: #a0aec0;
+    --color-text-subtle: #718096;
+    --color-text-light: #1a202c;
 
-    --color-bg-light: #1a202c; /* Dark background */
-    --color-bg-card: #2d3748; /* Darker background for cards */
-    --color-bg-dark: #1a202c; /* Consistent dark background */
+    --color-bg-light: #1a202c;
+    --color-bg-card: #2d3748;
+    --color-bg-dark: #1a202c;
+    --color-bg-form: #2d3748; /* Use card background for forms in dark mode */
 
-    --color-border: #4a5568; /* Darker border for separation */
+    --color-border: #4a5568;
 
-    --color-success: #34d399; /* Lighter green */
-    --color-success-bg: #10b981; /* Darker green background */
-    --color-error: #f87171; /* Lighter red */
-    --color-error-bg: #ef4444; /* Darker red background */
-    --color-info: #93c5fd; /* Lighter blue */
-    --color-info-bg: #60a5fa; /* Darker blue background */
+    --color-success: #34d399;
+    --color-success-bg: #10b981;
+    --color-error: #f87171;
+    --color-error-bg: #ef4444;
+    --color-info: #93c5fd;
+    --color-info-bg: #60a5fa;
+    --color-warn: #facc15;
+    --color-warn-bg: #d97706;
 
-    /* Dark mode shadows (more subtle) */
     --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
     --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.15), 0 1px 2px 0 rgba(0, 0, 0, 0.08);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
@@ -95,7 +100,6 @@ body.dark-mode {
     --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
     --shadow-inset: inset 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 }
-
 
 body {
     margin: 0;
@@ -106,7 +110,7 @@ body {
     color: var(--color-text-body);
     line-height: 1.6;
     scroll-behavior: smooth;
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for dark mode */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #root {
@@ -117,19 +121,19 @@ body {
 
 /* --- Reusable Components / Base Elements --- */
 .container {
-    max-width: 1300px; /* Slightly wider max-width */
+    max-width: 1300px;
     margin-left: auto;
     margin-right: auto;
-    padding: var(--space-4); /* Default padding */
+    padding: var(--space-4);
 }
 
-@media (min-width: 640px) { /* sm breakpoint */
+@media (min-width: 640px) {
     .container {
         padding: var(--space-6);
     }
 }
 
-@media (min-width: 768px) { /* md breakpoint */
+@media (min-width: 768px) {
     .container {
         padding: var(--space-8);
     }
@@ -137,17 +141,17 @@ body {
 
 .card {
     background-color: var(--color-bg-card);
-    border-radius: var(--radius-lg); /* Slightly less rounded than before for general cards */
-    box-shadow: var(--shadow-md); /* Softer general card shadow */
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
     border: 1px solid var(--color-border);
-    padding: var(--space-8); /* Consistent padding for cards */
+    padding: var(--space-8);
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 
 /* --- Buttons --- */
 .btn {
     padding: var(--space-3) var(--space-6);
-    border-radius: var(--radius-md); /* Consistent rounding for buttons */
+    border-radius: var(--radius-md);
     font-weight: 600;
     transition: all 0.3s ease-in-out;
     cursor: pointer;
@@ -159,7 +163,7 @@ body {
     white-space: nowrap;
     border: none;
     font-size: 1rem;
-    letter-spacing: 0.02em; /* Slight letter spacing */
+    letter-spacing: 0.02em;
 }
 
 .btn-primary {
@@ -170,13 +174,13 @@ body {
 
 .btn-primary:hover {
     background-color: var(--color-primary-dark);
-    transform: translateY(-3px); /* Prominent lift */
-    box-shadow: var(--shadow-xl); /* Stronger shadow on hover */
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-xl);
 }
 
 .btn-primary:focus {
     outline: none;
-    box-shadow: 0 0 0 4px var(--color-primary-light); /* Clearer focus ring */
+    box-shadow: 0 0 0 4px var(--color-primary-light);
 }
 
 .btn-primary:disabled {
@@ -192,7 +196,7 @@ body {
 }
 
 .btn-secondary:hover {
-    background-color: var(--color-text-subtle); /* Slightly darker gray */
+    background-color: var(--color-text-subtle);
     color: var(--color-text-heading);
     transform: translateY(-2px);
     box-shadow: var(--shadow-sm);
@@ -240,7 +244,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: var(--space-4); /* Add some space from other buttons */
+    margin-left: var(--space-4);
 }
 
 .dark-mode-toggle:hover {
@@ -269,13 +273,13 @@ body.dark-mode .dark-mode-toggle .icon-moon {
 
 /* --- Form Elements --- */
 .form-group {
-    margin-bottom: var(--space-5); /* Consistent spacing between form fields */
+    margin-bottom: var(--space-5);
 }
 
 .form-label {
     display: block;
     font-size: 0.95rem;
-    font-weight: 600; /* Bolder labels */
+    font-weight: 600;
     color: var(--color-text-heading);
     margin-bottom: var(--space-2);
 }
@@ -285,10 +289,10 @@ body.dark-mode .dark-mode-toggle .icon-moon {
 .form-textarea {
     display: block;
     width: 100%;
-    padding: var(--space-3) var(--space-4); /* More comfortable padding */
+    padding: var(--space-3) var(--space-4);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    box-shadow: var(--shadow-xs); /* Subtle input shadow */
+    box-shadow: var(--shadow-xs);
     transition: all 0.2s ease-in-out, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
     font-size: 1rem;
     color: var(--color-text-body);
@@ -311,20 +315,20 @@ body.dark-mode .dark-mode-toggle .icon-moon {
 
 .form-textarea {
     resize: vertical;
-    min-height: 120px; /* Taller text area for descriptions */
+    min-height: 120px;
 }
 
 .checkbox-container {
     display: flex;
     align-items: center;
     gap: var(--space-2);
-    margin-top: var(--space-4); /* Default margin for checkboxes */
+    margin-top: var(--space-4);
 }
 
 .checkbox-input {
     height: 1.15rem;
     width: 1.15rem;
-    accent-color: var(--color-primary); /* Use accent-color for checkbox fill */
+    accent-color: var(--color-primary);
     border-color: var(--color-text-subtle);
     border-radius: var(--radius-sm);
     transition: all 0.2s ease-in-out;
@@ -387,8 +391,8 @@ body.dark-mode .dark-mode-toggle .icon-moon {
 
 .navbar {
     background-color: var(--color-bg-card);
-    padding: var(--space-3) var(--space-8); /* Adjusted vertical padding for a more appealing height */
-    box-shadow: var(--shadow-sm); /* Subtle shadow for navbar */
+    padding: var(--space-2) var(--space-8); /* Reduced vertical padding for a more compact look */
+    box-shadow: var(--shadow-sm);
     position: sticky;
     top: 0;
     z-index: 20;
@@ -398,7 +402,7 @@ body.dark-mode .dark-mode-toggle .icon-moon {
 
 .navbar-content {
     display: flex;
-    flex-direction: column; /* Default to column for mobile */
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     max-width: 1300px;
@@ -409,24 +413,24 @@ body.dark-mode .dark-mode-toggle .icon-moon {
 
 .navbar-title {
     color: var(--color-text-heading);
-    font-size: 1.8rem; /* Slightly smaller for better fit on mobile */
+    font-size: 1.8rem;
     font-weight: 800;
-    margin-bottom: var(--space-3); /* Adjusted margin for mobile */
-    letter-spacing: -0.02em; /* Tighten tracking */
+    margin-bottom: var(--space-3);
+    letter-spacing: -0.02em;
     transition: color 0.3s ease;
 }
 
 .navbar-buttons-wrapper {
     display: flex;
     align-items: center;
-    gap: var(--space-4); /* Gap between nav buttons and toggle */
+    gap: var(--space-4);
     flex-wrap: wrap;
     justify-content: center;
 }
 
 .navbar-buttons {
     display: flex;
-    flex-wrap: wrap; /* Allow wrapping on small screens */
+    flex-wrap: wrap;
     justify-content: center;
     gap: var(--space-4);
 }
@@ -459,7 +463,7 @@ body.dark-mode .dark-mode-toggle .icon-moon {
 
 .main-content {
     flex-grow: 1;
-    padding: var(--space-10) 0; /* Vertical padding, full width */
+    padding: var(--space-10) 0;
 }
 
 .hero-section {
@@ -479,7 +483,7 @@ body.dark-mode .dark-mode-toggle .icon-moon {
     color: var(--color-text-heading);
     margin-bottom: var(--space-4);
     line-height: 1.2;
-    letter-spacing: -0.03em; /* Tighter tracking for headings */
+    letter-spacing: -0.03em;
     animation: slideInUp 0.8s ease-out forwards;
     transition: color 0.3s ease;
 }
@@ -554,7 +558,7 @@ body.dark-mode .dark-mode-toggle .icon-moon {
 .admin-nav {
     margin-bottom: var(--space-8);
     display: flex;
-    flex-direction: column; /* Default to column for mobile */
+    flex-direction: column;
     justify-content: center;
     gap: var(--space-4);
     flex-wrap: wrap;
@@ -614,38 +618,38 @@ body.dark-mode .dark-mode-toggle .icon-moon {
 
 .space-grid {
     display: grid;
-    grid-template-columns: 1fr; /* Default to single column */
+    grid-template-columns: 1fr;
     gap: var(--space-8);
 }
 
 .space-card {
     background-color: var(--color-bg-card);
-    border-radius: var(--radius-lg); /* Less rounded corners for the new design */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Softer shadow as per image */
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
     overflow: hidden;
     display: flex;
     flex-direction: column;
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
-    border: 1px solid var(--color-border); /* Subtle border */
+    border: 1px solid var(--color-border);
     animation: fadeIn 0.8s ease-out forwards;
 }
 
 .space-card:hover {
-    transform: translateY(-5px); /* Subtle lift on hover */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); /* Slightly stronger shadow on hover */
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 .space-card-image-container {
     position: relative;
     width: 100%;
-    padding-top: 66.66%; /* 3:2 aspect ratio for images (e.g., 300px width, 200px height) */
+    padding-top: 66.66%;
     background-color: var(--color-border);
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--color-text-subtle);
     overflow: hidden;
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0; /* Rounded top corners only */
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -660,7 +664,7 @@ body.dark-mode .dark-mode-toggle .icon-moon {
 }
 
 .space-card-image:hover {
-    transform: scale(1.05); /* Subtle zoom */
+    transform: scale(1.05);
 }
 
 .space-card-image-placeholder {
@@ -671,15 +675,15 @@ body.dark-mode .dark-mode-toggle .icon-moon {
 }
 
 .space-card-content {
-    padding: var(--space-4) var(--space-5); /* Adjusted padding for content */
+    padding: var(--space-4) var(--space-5);
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    text-align: left; /* Ensure left alignment */
+    text-align: left;
 }
 
 .space-card-title {
-    font-size: 1.25rem; /* Slightly smaller title */
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--color-text-heading);
     margin-bottom: var(--space-2);
@@ -689,7 +693,7 @@ body.dark-mode .dark-mode-toggle .icon-moon {
 
 .space-card-detail {
     color: var(--color-text-body);
-    font-size: 0.9rem; /* Slightly smaller detail text */
+    font-size: 0.9rem;
     margin-bottom: var(--space-1);
     transition: color 0.3s ease;
 }
@@ -701,41 +705,41 @@ body.dark-mode .dark-mode-toggle .icon-moon {
 }
 
 .space-card-price {
-    color: var(--color-text-heading); /* Price color from screenshot */
+    color: var(--color-text-heading);
     font-weight: 700;
-    font-size: 1.1rem; /* Adjusted price font size */
+    font-size: 1.1rem;
     margin-top: var(--space-2);
     transition: color 0.3s ease;
 }
 
 .space-card-availability {
-    color: var(--color-success); /* Green for 'Available' */
+    color: var(--color-success);
     font-weight: 600;
     font-size: 0.9rem;
     margin-top: var(--space-1);
-    margin-bottom: var(--space-4); /* Space before button */
+    margin-bottom: var(--space-4);
     transition: color 0.3s ease;
 }
 
 .space-card-description {
-    display: none; /* Hide description as per the new design */
+    display: none;
 }
 
 .space-card-amenities {
-    display: none; /* Hide amenities as per the new design */
+    display: none;
 }
 
 .space-card-footer {
-    padding: 0 var(--space-5) var(--space-4); /* Padding for the button area */
+    padding: 0 var(--space-5) var(--space-4);
     display: flex;
-    justify-content: center; /* Center the button */
+    justify-content: center;
     width: 100%;
 }
 
 .space-card-footer .btn {
-    width: calc(100% - var(--space-2)); /* Full width minus some padding */
+    width: calc(100% - var(--space-2));
     padding: var(--space-3);
-    border-radius: var(--radius-md); /* Consistent button radius */
+    border-radius: var(--radius-md);
     font-size: 0.95rem;
 }
 
@@ -744,7 +748,7 @@ body.dark-mode .dark-mode-toggle .icon-moon {
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.6); /* Darker, slightly transparent black */
+    background-color: rgba(0, 0, 0, 0.6);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -759,7 +763,7 @@ body.dark-mode .dark-mode-toggle .icon-moon {
     box-shadow: var(--shadow-2xl);
     padding: var(--space-8);
     width: 100%;
-    max-width: 40rem; /* Wider modal */
+    max-width: 40rem;
     position: relative;
     transform: scale(0.95);
     animation: scaleIn 0.3s ease-out forwards;
@@ -772,7 +776,7 @@ body.dark-mode .dark-mode-toggle .icon-moon {
     top: var(--space-4);
     right: var(--space-4);
     color: var(--color-text-subtle);
-    font-size: 2.2rem; /* Larger close icon */
+    font-size: 2.2rem;
     font-weight: 700;
     transition: color 0.2s ease, transform 0.2s ease;
     background: none;
@@ -824,7 +828,7 @@ body.dark-mode .dark-mode-toggle .icon-moon {
     box-shadow: var(--shadow-lg);
     border: 1px solid var(--color-border);
     padding: var(--space-8);
-    max-width: 1200px; /* Allow wider for tables */
+    max-width: 1200px;
     margin: auto;
     transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -861,7 +865,7 @@ body.dark-mode .dark-mode-toggle .icon-moon {
 
 .form-grid {
     display: grid;
-    grid-template-columns: 1fr; /* Default to single column */
+    grid-template-columns: 1fr;
     gap: var(--space-5);
     margin-bottom: var(--space-4);
 }
@@ -896,7 +900,7 @@ body.dark-mode .dark-mode-toggle .icon-moon {
 
 .data-table th,
 .data-table td {
-    padding: var(--space-4) var(--space-5); /* More padding */
+    padding: var(--space-4) var(--space-5);
     text-align: left;
     white-space: nowrap;
     transition: color 0.3s ease;
@@ -926,7 +930,7 @@ body.dark-mode .dark-mode-toggle .icon-moon {
 }
 
 .data-table tbody tr:hover {
-    background-color: var(--color-bg-light); /* Very light hover background */
+    background-color: var(--color-bg-light);
 }
 
 .data-table td {
@@ -961,7 +965,7 @@ body.dark-mode .dark-mode-toggle .icon-moon {
 }
 
 .status-badge.yellow {
-    background-color: #fffbeb; /* Specific for yellow, hardcoded as it's less common */
+    background-color: #fffbeb;
     color: #92400e;
 }
 
@@ -976,8 +980,8 @@ body.dark-mode .dark-mode-toggle .icon-moon {
 }
 
 .table-image {
-    height: 60px; /* Fixed height for consistency */
-    width: 100px; /* Fixed width for consistency */
+    height: 60px;
+    width: 100px;
     object-fit: cover;
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
@@ -1010,7 +1014,7 @@ body.dark-mode .dark-mode-toggle .icon-moon {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: calc(100vh - 160px); /* Adjust based on header/footer height */
+    min-height: calc(100vh - 160px);
     padding: var(--space-8);
 }
 
@@ -1021,7 +1025,7 @@ body.dark-mode .dark-mode-toggle .icon-moon {
     border: 1px solid var(--color-border);
     padding: var(--space-10);
     width: 100%;
-    max-width: 38rem; /* Wider login card */
+    max-width: 38rem;
     text-align: center;
     transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -1084,7 +1088,6 @@ body.dark-mode .dark-mode-toggle .icon-moon {
 .space-grid .space-card:nth-child(4) { animation-delay: 0.3s; }
 .space-grid .space-card:nth-child(5) { animation-delay: 0.4s; }
 .space-grid .space-card:nth-child(6) { animation-delay: 0.5s; }
-/* Add more as needed for your typical number of cards */
 
 
 /* --- Responsive Adjustments (Media Queries) --- */
@@ -1092,14 +1095,14 @@ body.dark-mode .dark-mode-toggle .icon-moon {
 /* Small devices (sm) - 640px and up */
 @media (min-width: 640px) {
     .navbar-content {
-        flex-direction: row; /* Navbar becomes row on small screens */
+        flex-direction: row;
     }
     .navbar-title {
         margin-bottom: 0;
-        font-size: 2rem; /* Adjusted font size for better fit */
+        font-size: 2rem;
     }
     .navbar-buttons-wrapper {
-        justify-content: flex-end; /* Align to right */
+        justify-content: flex-end;
     }
     .navbar-buttons {
         gap: var(--space-6);
@@ -1124,11 +1127,11 @@ body.dark-mode .dark-mode-toggle .icon-moon {
         font-size: 1.1rem;
     }
     .space-grid {
-        grid-template-columns: repeat(2, 1fr); /* Two columns on small devices */
+        grid-template-columns: repeat(2, 1fr);
         gap: var(--space-10);
     }
     .space-card-image-container {
-        padding-top: 60%; /* Slightly adjusted aspect ratio for smaller screens */
+        padding-top: 60%;
     }
     .modal-content {
         padding: var(--space-10);
@@ -1145,10 +1148,10 @@ body.dark-mode .dark-mode-toggle .icon-moon {
 /* Medium devices (md) - 768px and up */
 @media (min-width: 768px) {
     .navbar {
-        padding: var(--space-4) var(--space-8); /* Slightly more padding for medium screens */
+        padding: var(--space-3) var(--space-8); /* Adjusted vertical padding for medium screens */
     }
     .navbar-title {
-        font-size: 2.2rem; /* Adjusted font size */
+        font-size: 2.2rem;
     }
     .hero-title {
         font-size: 4.5rem;
@@ -1163,42 +1166,25 @@ body.dark-mode .dark-mode-toggle .icon-moon {
         grid-template-columns: repeat(2, 1fr);
         gap: var(--space-8);
     }
-    .form-grid-full-width-md { /* Specific for password field in UserManagement */
+    .form-grid-full-width-md {
         grid-column: 1 / -1;
     }
     .space-grid {
-        grid-template-columns: repeat(3, 1fr); /* Three columns on medium devices */
+        grid-template-columns: repeat(3, 1fr);
         gap: var(--space-10);
     }
     .space-card-image-container {
-        padding-top: 66.66%; /* Back to 3:2 for 3 columns */
+        padding-top: 66.66%;
     }
 }
 
 /* Large devices (lg) - 1024px and up */
 @media (min-width: 1024px) {
     .navbar-title {
-        font-size: 2.5rem; /* Larger font for desktop */
+        font-size: 2.5rem;
     }
     .space-grid {
-        grid-template-columns: repeat(4, 1fr); /* Four columns on large devices */
-        gap: var(--space-12);
-    }
-    .space-card-image-container {
-        padding-top: 66.66%; /* Maintain 3:2 for 4 columns */
-    }
-}
-
-/* Extra Large devices (xl) - 1280px and up */
-@media (min-width: 1280px) {
-    .hero-title {
-        font-size: 5.5rem; /* Even larger hero title */
-    }
-    .hero-subtitle {
-        font-size: 1.6rem;
-    }
-    /* Space grid remains 4 columns, gap increases slightly */
-    .space-grid {
+        grid-template-columns: repeat(4, 1fr);
         gap: var(--space-12);
     }
 }
