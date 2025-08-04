@@ -3,7 +3,8 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from datetime import datetime
-import json # Import json module for handling JSONB data
+import json
+from werkzeug.security import generate_password_hash, check_password_hash # Import for password hashing
 
 app = Flask(__name__)
 CORS(app) # Enable CORS for all routes
@@ -20,8 +21,8 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    # New: Add password field - IMPORTANT: In a real app, store hashed passwords, not plain text!
-    password = db.Column(db.String(120), nullable=False) 
+    # IMPORTANT CHANGE: Store hashed passwords, not plain text!
+    password_hash = db.Column(db.String(128), nullable=False) 
     role = db.Column(db.String(20), default='client', nullable=False) # 'client' or 'admin'
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
@@ -31,6 +32,14 @@ class User(db.Model):
 
     def __repr__(self):
         return f'<User {self.username}>'
+
+    # Method to set password (hashes it)
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    # Method to check password
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
     def to_dict(self):
         return {
@@ -95,19 +104,25 @@ class Booking(db.Model):
 
     def to_dict(self):
         # Calculate total price if not already set (e.g., on creation)
+        # Ensure space and booker relationships are loaded before accessing their attributes
+        space_name = self.space.name if self.space else None
+        username = self.booker.username if self.booker else None
+
+        # Recalculate total_price if space data is available and times are set
+        calculated_total_price = self.total_price
         if self.space and self.start_time and self.end_time:
             duration_hours = (self.end_time - self.start_time).total_seconds() / 3600
-            self.total_price = round(duration_hours * self.space.price_per_hour, 2)
+            calculated_total_price = round(duration_hours * self.space.price_per_hour, 2)
         
         return {
             'id': self.id,
             'space_id': self.space_id,
-            'space_name': self.space.name if self.space else None, # Include space name
+            'space_name': space_name, # Include space name
             'user_id': self.user_id,
-            'username': self.booker.username if self.booker else None, # Include username
+            'username': username, # Include username
             'start_time': self.start_time.isoformat(),
             'end_time': self.end_time.isoformat(),
-            'total_price': self.total_price,
+            'total_price': calculated_total_price, # Use calculated price
             'status': self.status,
             'created_at': self.created_at.isoformat(),
             'updated_at': self.updated_at.isoformat()
@@ -119,14 +134,16 @@ with app.app_context():
 
     # Optional: Add a default admin user if no users exist
     if User.query.count() == 0:
-        admin_user = User(username='admin', email='admin@example.com', password='password', role='admin') # Added password
+        admin_user = User(username='admin', email='admin@example.com', role='admin')
+        admin_user.set_password('adminpassword') # Set a strong default password here
         db.session.add(admin_user)
         db.session.commit()
         print("Default admin user created.")
     
     # Optional: Add a default client user if no users exist
     if User.query.filter_by(role='client').count() == 0:
-        client_user = User(username='client', email='client@example.com', password='password', role='client') # Added password
+        client_user = User(username='client', email='client@example.com', role='client')
+        client_user.set_password('clientpassword') # Set a strong default password here
         db.session.add(client_user)
         db.session.commit()
         print("Default client user created.")
@@ -158,7 +175,8 @@ def handle_users():
         if User.query.filter_by(email=email).first():
             return jsonify(message="Email already exists"), 409
 
-        new_user = User(username=username, email=email, password=password, role=role) # Pass password to User model
+        new_user = User(username=username, email=email, role=role)
+        new_user.set_password(password) # Hash and set password
         db.session.add(new_user)
         db.session.commit()
         return jsonify(message="User created successfully", user=new_user.to_dict()), 201
@@ -180,7 +198,7 @@ def handle_user(user_id):
         user.email = data.get('email', user.email)
         user.role = data.get('role', user.role)
         if 'password' in data: # Allow password update
-            user.password = data['password']
+            user.set_password(data['password']) # Hash and set new password
         db.session.commit()
         return jsonify(message="User updated successfully", user=user.to_dict()), 200
     elif request.method == 'DELETE':
@@ -418,6 +436,27 @@ def handle_booking(booking_id):
         db.session.delete(booking)
         db.session.commit()
         return jsonify(message="Booking deleted successfully and space marked available"), 200
+
+# NEW LOGIN ENDPOINT
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    if not data:
+        return jsonify(message="Invalid JSON"), 400
+
+    username = data.get('username')
+    password = data.get('password')
+
+    if not username or not password:
+        return jsonify(message="Username and password are required"), 400
+
+    user = User.query.filter_by(username=username).first()
+
+    if user and user.check_password(password): # Use check_password method
+        # In a real application, you would generate and return a JWT token here
+        return jsonify(message="Login successful", user=user.to_dict()), 200
+    else:
+        return jsonify(message="Invalid username or password"), 401 # Use 401 Unauthorized for invalid credentials
 
 if __name__ == '__main__':
     app.run(debug=True)
